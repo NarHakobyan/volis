@@ -1,289 +1,204 @@
-# Artifacts
+# Components and Features
 
-Artifacts is a special user interface mode that allows you to have a workspace-like interface along with the chat interface. This is similar to [ChatGPT's Canvas](https://openai.com/index/introducing-canvas) and [Claude's Artifacts](https://www.anthropic.com/news/artifacts).
+This document describes the key components and features of the Volis application.
 
-The CV-Job Matching AI ships with the following artifacts:
+## Core Components
 
-- **Text Artifact**: A artifact that allows you to work with text content like drafting essays and emails.
-- **Code Artifact**: A artifact that allows you to write and execute code (Python).
-- **Image Artifact**: A artifact that allows you to work with images like editing, annotating, and processing images.
-- **Sheet Artifact**: A artifact that allows you to work with tabular data like creating, editing, and analyzing data.
-- **CV Matching Artifact**: A specialized artifact for uploading CVs and job descriptions, analyzing them, and providing matching scores and detailed analysis.
+### Estonia Map Component
 
-## CV Matching Artifact
+The `EstoniaMap` component provides an interactive visualization of Estonian municipalities:
 
-The CV Matching Artifact is the core feature of this application. It allows users to:
-
-1. Upload a CV document (PDF, DOCX, or plain text)
-2. Input job requirements and responsibilities
-3. Get an AI-powered analysis of how well the CV matches the job requirements
-4. Receive a detailed breakdown of matching skills, experience, and qualifications
-5. Get a numerical matching score and recommendations for improvement
-
-The artifact uses advanced AI models to extract information from both the CV and job description, compare them semantically, and provide actionable insights.
-
-## Adding a Custom Artifact
-
-To add a custom artifact, you will need to create a folder in the `artifacts` directory with the artifact name. The folder should contain the following files:
-
-- `client.tsx`: The client-side code for the artifact.
-- `server.ts`: The server-side code for the artifact.
-
-Here is an example of a custom artifact called `CustomArtifact`:
-
-```bash
-artifacts/
-  custom/
-    client.tsx
-    server.ts
+```typescript
+// components/estonia-map.tsx
+export function EstoniaMap() {
+  // Interactive map using react-leaflet
+  // Clickable regions with active voting indicators
+  // Navigation to municipality-specific pages
+}
 ```
 
-### Client-Side Example (client.tsx)
+Key features:
+- Interactive map visualization
+- Region highlighting based on active votings
+- Click navigation to municipality pages
+- Responsive design for different screen sizes
 
-This file is responsible for rendering your custom artifact. You might replace the inner UI with your own components, but the overall pattern (initialization, handling streamed data, and rendering content) remains the same. For instance:
+### Active Votings Component
 
-```tsx
-import { Artifact } from "@/components/create-artifact";
-import { ExampleComponent } from "@/components/example-component";
-import { toast } from "sonner";
+The `ActiveVotings` component displays current and upcoming votings:
 
-interface CustomArtifactMetadata {
-  // Define metadata your custom artifact might need—the example below is minimal.
-  info: string;
+```typescript
+// components/active-votings.tsx
+export function ActiveVotings() {
+  // List of active and upcoming votings
+  // Voting cards with key information
+  // Status indicators and navigation
+}
+```
+
+Features:
+- Voting status badges
+- Date range display
+- Municipality and voting type information
+- Direct links to voting details
+
+## Authentication and Authorization
+
+The application uses Next.js middleware for authentication and role-based access control:
+
+```typescript
+// middleware.ts
+export const middleware = authMiddleware({
+  publicRoutes: ['/'],
+  roleRoutes: {
+    admin: ['/admin/*'],
+    voter: ['/vote/*']
+  }
+});
+```
+
+## API Routes
+
+### Voting Management
+
+```typescript
+// app/api/votings/route.ts
+// Create new voting
+POST /api/votings
+{
+  title: string
+  description: string
+  type: VotingType
+  startDate: Date
+  endDate: Date
+  municipalityId: string
 }
 
-export const customArtifact = new Artifact<"custom", CustomArtifactMetadata>({
-  kind: "custom",
-  description: "A custom artifact for demonstrating custom functionality.",
-  // Initialization can fetch any extra data or perform side effects
-  initialize: async ({ documentId, setMetadata }) => {
-    // For example, initialize the artifact with default metadata.
-    setMetadata({
-      info: `Document ${documentId} initialized.`,
-    });
-  },
-  // Handle streamed parts from the server (if your artifact supports streaming updates)
-  onStreamPart: ({ streamPart, setMetadata, setArtifact }) => {
-    if (streamPart.type === "info-update") {
-      setMetadata((metadata) => ({
-        ...metadata,
-        info: streamPart.content as string,
-      }));
-    }
-    if (streamPart.type === "content-update") {
-      setArtifact((draftArtifact) => ({
-        ...draftArtifact,
-        content: draftArtifact.content + (streamPart.content as string),
-        status: "streaming",
-      }));
-    }
-  },
-  // Defines how the artifact content is rendered
-  content: ({
-    mode,
-    status,
-    content,
-    isCurrentVersion,
-    currentVersionIndex,
-    onSaveContent,
-    getDocumentContentById,
-    isLoading,
-    metadata,
-  }) => {
-    if (isLoading) {
-      return <div>Loading custom artifact...</div>;
-    }
+// Get active votings
+GET /api/votings/active
 
-    if (mode === "diff") {
-      const oldContent = getDocumentContentById(currentVersionIndex - 1);
-      const newContent = getDocumentContentById(currentVersionIndex);
-      return (
-        <div>
-          <h3>Diff View</h3>
-          <pre>{oldContent}</pre>
-          <pre>{newContent}</pre>
-        </div>
-      );
-    }
+// Get voting details
+GET /api/votings/:id
 
-    return (
-      <div className="custom-artifact">
-        <ExampleComponent
-          content={content}
-          metadata={metadata}
-          onSaveContent={onSaveContent}
-          isCurrentVersion={isCurrentVersion}
-        />
-        <button
-          onClick={() => {
-            navigator.clipboard.writeText(content);
-            toast.success("Content copied to clipboard!");
-          }}
-        >
-          Copy
-        </button>
-      </div>
-    );
-  },
-  // An optional set of actions exposed in the artifact toolbar.
-  actions: [
-    {
-      icon: <span>⟳</span>,
-      description: "Refresh artifact info",
-      onClick: ({ appendMessage }) => {
-        appendMessage({
-          role: "user",
-          content: "Please refresh the info for my custom artifact.",
-        });
-      },
-    },
-  ],
-  // Additional toolbar actions for more control
-  toolbar: [
-    {
-      icon: <span>✎</span>,
-      description: "Edit custom artifact",
-      onClick: ({ appendMessage }) => {
-        appendMessage({
-          role: "user",
-          content: "Edit the custom artifact content.",
-        });
-      },
-    },
-  ],
-});
+// Submit vote
+POST /api/votings/:id/vote
+{
+  choice: any
+}
 ```
 
-### Server-Side Example (server.ts)
+### Municipality Management
 
-The server file processes the document for the artifact. It streams updates (if applicable) and returns the final content. For example:
+```typescript
+// app/api/municipalities/route.ts
+// List municipalities
+GET /api/municipalities
 
-```ts
-import { smoothStream, streamText } from "ai";
-import { myProvider } from "@/lib/ai/providers";
-import { createDocumentHandler } from "@/lib/artifacts/server";
-import { updateDocumentPrompt } from "@/lib/ai/prompts";
+// Get municipality details
+GET /api/municipalities/:id
 
-export const customDocumentHandler = createDocumentHandler<"custom">({
-  kind: "custom",
-  // Called when the document is first created.
-  onCreateDocument: async ({ title, dataStream }) => {
-    let draftContent = "";
-    // For demonstration, use streamText to generate content.
-    const { fullStream } = streamText({
-      model: myProvider.languageModel("artifact-model"),
-      system:
-        "Generate a creative piece based on the title. Markdown is supported.",
-      experimental_transform: smoothStream({ chunking: "word" }),
-      prompt: title,
-    });
-
-    // Stream the content back to the client.
-    for await (const delta of fullStream) {
-      if (delta.type === "text-delta") {
-        draftContent += delta.textDelta;
-        dataStream.writeData({
-          type: "content-update",
-          content: delta.textDelta,
-        });
-      }
-    }
-
-    return draftContent;
-  },
-  // Called when updating the document based on user modifications.
-  onUpdateDocument: async ({ document, description, dataStream }) => {
-    let draftContent = "";
-    const { fullStream } = streamText({
-      model: myProvider.languageModel("artifact-model"),
-      system: updateDocumentPrompt(document.content, "custom"),
-      experimental_transform: smoothStream({ chunking: "word" }),
-      prompt: description,
-      experimental_providerMetadata: {
-        openai: {
-          prediction: {
-            type: "content",
-            content: document.content,
-          },
-        },
-      },
-    });
-
-    for await (const delta of fullStream) {
-      if (delta.type === "text-delta") {
-        draftContent += delta.textDelta;
-        dataStream.writeData({
-          type: "content-update",
-          content: delta.textDelta,
-        });
-      }
-    }
-
-    return draftContent;
-  },
-});
+// Get municipality votings
+GET /api/municipalities/:id/votings
 ```
 
-## Creating a CV Matching Artifact
+## UI Components
 
-To implement the CV Matching artifact, you would create a new folder in the `artifacts` directory:
+The application uses shadcn/ui components for consistent styling:
 
-```bash
-artifacts/
-  cv-matching/
-    client.tsx
-    server.ts
+### Cards
+
+```typescript
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+
+// Voting Card Example
+<Card>
+  <CardHeader>
+    <CardTitle>{voting.title}</CardTitle>
+  </CardHeader>
+  <CardContent>
+    {/* Voting details */}
+  </CardContent>
+</Card>
 ```
 
-The CV Matching artifact would include specialized UI components for:
-- File upload for CV documents
-- Text input for job descriptions
-- Visualization of matching scores
-- Detailed analysis of skills, experience, and qualifications
-- Recommendations for improving the match
+### Badges
 
-Once you have created the client and server files, you can import the artifact in the `lib/artifacts/server.ts` file and add it to the `documentHandlersByArtifactKind` array.
+```typescript
+import { Badge } from "@/components/ui/badge";
 
-```ts
-export const documentHandlersByArtifactKind: Array<DocumentHandler> = [
-  ...,
-  cvMatchingDocumentHandler,
-];
-
-export const artifactKinds = [..., "cv-matching"] as const;
+// Status Badge Example
+<Badge variant={voting.status === "active" ? "default" : "secondary"}>
+  {voting.status}
+</Badge>
 ```
 
-Specify it in document schema at `lib/db/schema.ts`.
+## Data Flow
 
-```ts
-export const document = pgTable(
-  "Document",
-  {
-    id: uuid("id").notNull().defaultRandom(),
-    createdAt: timestamp("createdAt").notNull(),
-    title: text("title").notNull(),
-    content: text("content"),
-    kind: varchar("text", { enum: [..., "cv-matching"] }) // Add the CV matching artifact kind here
-      .notNull()
-      .default("text"),
-    userId: uuid("userId")
-      .notNull()
-      .references(() => user.id),
-  },
-  (table) => {
-    return {
-      pk: primaryKey({ columns: [table.id, table.createdAt] }),
-    };
-  },
-);
+1. User Authentication
+   - Login with Estonian ID
+   - Role assignment based on municipality
+
+2. Voting Process
+   - Browse active votings
+   - Select voting
+   - Submit choice
+   - Receive confirmation
+
+3. Admin Functions
+   - Create/manage votings
+   - Monitor participation
+   - View results
+
+## Error Handling
+
+The application implements comprehensive error handling:
+
+```typescript
+// Error Boundary Component
+export function ErrorBoundary({ children }) {
+  // Catch and handle rendering errors
+  // Display user-friendly error messages
+  // Log errors for monitoring
+}
+
+// API Error Handling
+export async function handleError(error: unknown) {
+  // Log error details
+  // Return appropriate error response
+  // Maintain type safety
+}
 ```
 
-And also add the client-side artifact to the `artifactDefinitions` array in the `components/artifact.tsx` file.
+## Testing
 
-```ts
-import { cvMatchingArtifact } from "@/artifacts/cv-matching/client";
+The application includes various types of tests:
 
-export const artifactDefinitions = [..., cvMatchingArtifact];
-```
+1. Unit Tests
+   ```typescript
+   // Example component test
+   describe('VotingCard', () => {
+     it('displays correct voting information', () => {
+       // Test implementation
+     });
+   });
+   ```
 
-You should now be able to see the CV Matching artifact in the workspace!
+2. Integration Tests
+   ```typescript
+   // Example API route test
+   describe('POST /api/votings', () => {
+     it('creates new voting successfully', () => {
+       // Test implementation
+     });
+   });
+   ```
+
+3. E2E Tests
+   ```typescript
+   // Example E2E test
+   test('user can submit vote', async ({ page }) => {
+     // Test implementation
+   });
+   ```
+
+For more detailed information about specific components or features, refer to the inline documentation in the codebase.

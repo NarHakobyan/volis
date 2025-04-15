@@ -1,1 +1,0 @@
-ALTER TABLE "Suggestion" ADD COLUMN "type" varchar DEFAULT 'suggestion' NOT NULL;

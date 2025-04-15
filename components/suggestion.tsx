@@ -27,7 +27,7 @@ export const Suggestion = ({
   const isImportance = suggestion.type === 'importance';
   const SuggestionIcon = isImportance ? HighlightIcon : MessageIcon;
   const tooltipTitle = isImportance ? 'Important' : 'Suggestion';
-  const bgColorClass = isImportance ? 'bg-yellow-50 dark:bg-yellow-950/40' : 'bg-background';
+  const bgColorClass = isImportance ? 'bg-yellow-50 dark:bg-yellow-950/40' : '';
   const borderColorClass = isImportance ? 'border-yellow-300 dark:border-yellow-700' : 'border';
 
   return (

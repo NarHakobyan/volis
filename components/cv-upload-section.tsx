@@ -409,7 +409,7 @@ After completing the analysis, please highlight the most important text from the
                   value={requirements}
                   onChange={(e) => setRequirements(e.target.value)}
                 />
-                <div className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md border border-border mt-2">
+                <div className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-md border mt-2">
                   <p className="font-medium mb-1">Tips for effective job descriptions:</p>
                   <ul className="list-disc list-inside space-y-1">
                     <li>Include required skills and qualifications</li>

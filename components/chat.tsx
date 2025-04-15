@@ -81,7 +81,7 @@ export function Chat({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
-        className="flex flex-col min-w-0 h-dvh bg-background"
+        className="flex flex-col min-w-0 h-dvh "
       >
         <ChatHeader
           chatId={id}
@@ -100,7 +100,7 @@ export function Chat({
         />
 
         <motion.form
-          className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl"
+          className="flex mx-auto px-4  pb-4 md:pb-6 gap-2 w-full md:max-w-3xl"
           onSubmit={handleMessageSubmit}
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}

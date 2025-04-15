@@ -24,7 +24,7 @@ export function ChatHeader({
 
   return (
     <motion.header
-      className="flex sticky top-0 bg-background/95 backdrop-blur-sm py-2 items-center px-3 md:px-4 gap-3 border-b z-10"
+      className="flex sticky top-0 /95 backdrop-blur-sm py-2 items-center px-3 md:px-4 gap-3 border-b z-10"
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}

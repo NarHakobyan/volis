@@ -1,14 +1,18 @@
 import type { Metadata } from 'next';
+import { GeistSans } from 'geist/font/sans';
+import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from 'sonner';
 
-import { ThemeProvider } from '@/components/theme-provider';
-
 import './globals.css';
+import { cn } from '@/lib/utils';
+import { ThemeProvider } from '@/components/theme-provider';
+import { Header } from '@/components/header';
+import { Footer } from '@/components/footer';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://chat.vercel.ai'),
-  title: 'Next.js Chatbot Template',
-  description: 'Next.js chatbot template using the AI SDK.',
+  title: 'VOLIS - Local Government Public Opinion Poll Environment',
+  description: 'VOLIS enables municipalities to conduct secure population surveys and inclusive budget processes, connected to the population register and secured by ID solutions.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
 };
 
 export const viewport = {
@@ -35,11 +39,11 @@ const THEME_COLOR_SCRIPT = `\
   updateThemeColor();
 })();`;
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html
       lang="en"
@@ -56,16 +60,26 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased">
+      <body
+        className={cn(
+          'min-h-screen  font-sans antialiased',
+          GeistSans.className
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <Toaster position="top-center" />
-          {children}
+          <div className="relative flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
+          <Toaster />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

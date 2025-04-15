@@ -220,7 +220,7 @@ function PureMultimodalInput({
       />
 
       <motion.div
-        className="relative flex flex-col w-full shadow-sm bg-background border border-border rounded-xl overflow-hidden focus-within:ring-1 focus-within:ring-primary focus-within:border-primary transition-all"
+        className="relative flex flex-col w-full shadow-sm  border rounded-xl overflow-hidden focus-within:ring-1 focus-within:ring-primary focus-within:border-primary transition-all"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.1 }}
@@ -228,7 +228,7 @@ function PureMultimodalInput({
         <AnimatePresence>
           {(attachments.length > 0 || uploadQueue.length > 0) && (
             <motion.div
-              className="flex flex-wrap gap-2 p-2 border-b border-border"
+              className="flex flex-wrap gap-2 p-2 border-b"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
