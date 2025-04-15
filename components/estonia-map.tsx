@@ -4,6 +4,8 @@ import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Feature } from "geojson";
 import { useRouter } from "next/navigation";
+import { Search, ZoomIn, ZoomOut } from "lucide-react";
+import { Button } from "./ui/button";
 
 // Estonia's approximate center coordinates
 const CENTER_POSITION = [58.5953, 25.0136];
@@ -34,7 +36,7 @@ export function EstoniaMap() {
   };
 
   return (
-    <div className="h-[500px] w-full overflow-hidden rounded-lg border">
+    <div className="relative h-[600px] w-full">
       <MapContainer
         center={CENTER_POSITION}
         zoom={ZOOM_LEVEL}
@@ -49,7 +51,7 @@ export function EstoniaMap() {
           <div
             key={region.id}
             className={`absolute cursor-pointer rounded-full p-2 ${
-              region.hasActiveVoting ? "bg-primary" : "bg-muted"
+              region.hasActiveVoting ? "bg-[#005AA3]" : "bg-gray-300"
             }`}
             style={{
               left: `${region.coordinates[1]}%`,
@@ -57,10 +59,48 @@ export function EstoniaMap() {
             }}
             onClick={() => handleRegionClick(region)}
           >
-            <span className="text-xs font-medium">{region.name}</span>
+            <span className="text-xs font-medium text-white">{region.name}</span>
           </div>
         ))}
       </MapContainer>
+
+      {/* Map Controls */}
+      <div className="absolute right-4 top-4 flex flex-col gap-2">
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 rounded-full border-[#005AA3] bg-white text-[#005AA3] hover:bg-[#005AA3] hover:text-white"
+        >
+          <Search className="h-4 w-4" />
+        </Button>
+        <div className="h-[1px] w-full bg-[#005AA3]" />
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 rounded-full border-[#005AA3] bg-white text-[#005AA3] hover:bg-[#005AA3] hover:text-white"
+        >
+          <ZoomIn className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 rounded-full border-[#005AA3] bg-white text-[#005AA3] hover:bg-[#005AA3] hover:text-white"
+        >
+          <ZoomOut className="h-4 w-4" />
+        </Button>
+      </div>
+
+      {/* Map Legend */}
+      <div className="absolute bottom-4 right-4 flex items-center gap-4 rounded-sm bg-white p-4 shadow-sm">
+        <div className="flex items-center gap-2">
+          <div className="h-4 w-4 rounded-full bg-[#005AA3]" />
+          <span className="text-sm text-[#131317]">Aktiivne hääletus</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="h-4 w-4 rounded-full bg-gray-300" />
+          <span className="text-sm text-[#131317]">Hääletus puudub</span>
+        </div>
+      </div>
     </div>
   );
 }

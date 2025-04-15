@@ -1,44 +1,42 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Laptop, CreditCard, BarChart3, FileJson } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-
-const items = [
+const navItems = [
   {
-    title: "Homepage",
-    href: "/",
+    label: "Võimalused",
+    href: "/voimalused",
+    icon: Laptop,
   },
   {
-    title: "Opportunities",
-    href: "/opportunities",
+    label: "Hinnakiri",
+    href: "/hinnakiri",
+    icon: CreditCard,
   },
   {
-    title: "Statistics",
-    href: "/statistics",
+    label: "Statistika",
+    href: "/statistika",
+    icon: BarChart3,
   },
   {
-    title: "API Description",
-    href: "/api-description",
+    label: "VOLIS API kirjeldus",
+    href: "/api-kirjeldus",
+    icon: FileJson,
   },
-];
+] as const;
 
 export function MainNav() {
-  const pathname = usePathname();
-
   return (
-    <nav className="hidden gap-6 md:flex">
-      {items.map((item) => (
+    <nav className="flex items-center">
+      {navItems.map((item) => (
         <Link
           key={item.href}
           href={item.href}
-          className={cn(
-            "text-sm font-medium transition-colors hover:text-foreground/80",
-            pathname === item.href ? "text-foreground" : "text-foreground/60"
-          )}
+          className="flex h-10 items-center gap-2 px-4 py-3 text-white hover:bg-[#004882] hover:text-white"
         >
-          {item.title}
+          <item.icon className="h-4 w-4" />
+          <span className="text-sm font-normal leading-[24px]">{item.label}</span>
         </Link>
       ))}
     </nav>

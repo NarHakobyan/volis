@@ -4,13 +4,15 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MapPin } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // This is mock data. In a real app, this would come from an API
 const mockVotings = [
   {
     id: "1",
-    title: "Tallinn City Center Park Renovation",
-    type: "Normal voting",
+    title: "Tallinna linna 2024. aasta kaasava eelarve hääletus",
+    type: "Kaasav eelarve",
     startDate: new Date("2024-04-01"),
     endDate: new Date("2024-04-15"),
     municipality: "Tallinn",
@@ -18,8 +20,8 @@ const mockVotings = [
   },
   {
     id: "2",
-    title: "Youth Council Election 2024",
-    type: "Youth Council",
+    title: "Tartu linna noortevolikogu valimised 2024",
+    type: "Noortevolikogu",
     startDate: new Date("2024-04-10"),
     endDate: new Date("2024-04-20"),
     municipality: "Tartu",
@@ -27,8 +29,8 @@ const mockVotings = [
   },
   {
     id: "3",
-    title: "Inclusive Budget 2024",
-    type: "Referendum",
+    title: "Pärnu linna 2024. aasta kaasava eelarve hääletus",
+    type: "Kaasav eelarve",
     startDate: new Date("2024-04-05"),
     endDate: new Date("2024-05-05"),
     municipality: "Pärnu",
@@ -38,36 +40,42 @@ const mockVotings = [
 
 export function ActiveVotings() {
   return (
-    <div className="space-y-4">
+    <div className="absolute left-6 top-[120px] w-[360px] space-y-4">
       {mockVotings.map((voting) => (
-        <Card key={voting.id}>
-          <CardHeader className="pb-2">
-            <div className="flex items-center justify-between">
-              <CardTitle className="text-lg font-semibold">
-                {voting.title}
-              </CardTitle>
-              <Badge
-                variant={voting.status === "active" ? "default" : "secondary"}
-              >
-                {voting.status}
-              </Badge>
+        <Card key={voting.id} className="overflow-hidden">
+          <CardHeader className="border-b border-[#D8D9DF] bg-[#F0F0F2] pb-3 pt-3">
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-[#005AA3]" />
+              <span className="text-sm font-normal text-[#131317]">
+                {voting.municipality}
+              </span>
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="grid gap-1">
-              <div className="text-sm text-muted-foreground">
-                {voting.municipality} • {voting.type}
-              </div>
-              <div className="text-sm">
-                {format(voting.startDate, "MMM d, yyyy")} -{" "}
-                {format(voting.endDate, "MMM d, yyyy")}
-              </div>
+          <CardContent className="p-4">
+            <div className="space-y-2">
               <Link
                 href={`/lg/${voting.municipality.toLowerCase()}/voting/${voting.id}`}
-                className="mt-2 text-sm font-medium text-primary hover:underline"
+                className="block text-base font-normal text-[#005AA3] hover:opacity-90"
               >
-                View details →
+                {voting.title}
               </Link>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-[#686B78]">{voting.type}</span>
+                <div
+                  className={cn(
+                    "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold",
+                    voting.status === "active"
+                      ? "border-transparent bg-[#005AA3] text-white"
+                      : "border-transparent bg-secondary text-secondary-foreground"
+                  )}
+                >
+                  {voting.status === "active" ? "Aktiivne" : "Tulemas"}
+                </div>
+              </div>
+              <div className="text-sm text-[#686B78]">
+                {format(voting.startDate, "dd.MM.yyyy")} -{" "}
+                {format(voting.endDate, "dd.MM.yyyy")}
+              </div>
             </div>
           </CardContent>
         </Card>

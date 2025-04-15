@@ -1,33 +1,22 @@
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Languages } from "lucide-react";
+import Link from "next/link";
 
 const languages = [
-  { code: "et", label: "Eesti" },
-  { code: "en", label: "English" },
-];
+  { label: "In English", href: "/en" },
+  { label: "На русском", href: "/ru" },
+] as const;
 
 export function LanguageSwitcher() {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Languages className="h-5 w-5" />
-          <span className="sr-only">Switch language</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        {languages.map((language) => (
-          <DropdownMenuItem key={language.code}>
-            {language.label}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="flex items-center gap-4">
+      {languages.map((lang) => (
+        <Link
+          key={lang.href}
+          href={lang.href}
+          className="text-sm font-normal leading-[24px] text-[#005AA3] hover:text-[#004882]"
+        >
+          {lang.label}
+        </Link>
+      ))}
+    </div>
   );
 }

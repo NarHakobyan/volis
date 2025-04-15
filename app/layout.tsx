@@ -19,7 +19,7 @@ export const viewport = {
   maximumScale: 1, // Disable auto-zoom on mobile Safari
 };
 
-const LIGHT_THEME_COLOR = 'hsl(0 0% 100%)';
+const LIGHT_THEME_COLOR = '#005AA3';
 const DARK_THEME_COLOR = 'hsl(240deg 10% 3.92%)';
 const THEME_COLOR_SCRIPT = `\
 (function() {
@@ -62,14 +62,14 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          'min-h-screen  font-sans antialiased',
+          'min-h-screen bg-[#F0F0F2] font-sans antialiased',
           GeistSans.className
         )}
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <div className="relative flex min-h-screen flex-col">
