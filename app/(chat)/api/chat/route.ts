@@ -47,10 +47,7 @@ export async function POST(request: Request) {
     const chatModel = 'chat-model-large';
 
     const session = await auth();
-
-    if (!session?.user?.id) {
-      return new Response('Unauthorized', { status: 401 });
-    }
+    const userId = session?.user?.id;
 
     const userMessage = getMostRecentUserMessage(messages);
 
@@ -65,16 +62,21 @@ export async function POST(request: Request) {
         message: userMessage,
       });
 
-      await saveChat({ id, userId: session.user.id, title });
-    } else {
-      if (chat.userId !== session.user.id) {
-        return new Response('Unauthorized', { status: 401 });
+      // Only save chat if user is authenticated
+      if (userId) {
+        await saveChat({ id, userId, title });
       }
+    } else if (chat.userId && chat.userId !== userId) {
+      // If chat exists and has a userId, verify ownership
+      return new Response('Unauthorized', { status: 401 });
     }
 
-    await saveMessages({
-      messages: [{ ...userMessage, createdAt: new Date(), chatId: id }],
-    });
+    // Only save messages if user is authenticated
+    if (userId) {
+      await saveMessages({
+        messages: [{ ...userMessage, createdAt: new Date(), chatId: id }],
+      });
+    }
 
     // Handle CV screening for first message if job details are provided
     if (!chat && jobTitle && requirements && cvUrls?.length) {

@@ -12,27 +12,37 @@ export const authConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const isOnChat = nextUrl.pathname.startsWith('/');
-      const isOnRegister = nextUrl.pathname.startsWith('/register');
       const isOnLogin = nextUrl.pathname.startsWith('/login');
+      const isOnRegister = nextUrl.pathname.startsWith('/register');
 
+      // Protected routes that require authentication
+      const protectedPaths = [
+        '/api/files/upload',
+        '/api/vote',
+        '/settings',
+        '/profile'
+      ];
+
+      const isProtectedRoute = protectedPaths.some(path =>
+        nextUrl.pathname.startsWith(path)
+      );
+
+      // Redirect authenticated users away from auth pages
       if (isLoggedIn && (isOnLogin || isOnRegister)) {
         return Response.redirect(new URL('/', nextUrl as unknown as URL));
       }
 
-      if (isOnRegister || isOnLogin) {
-        return true; // Always allow access to register and login pages
+      // Allow access to auth pages
+      if (isOnLogin || isOnRegister) {
+        return true;
       }
 
-      if (isOnChat) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
+      // Require auth for protected routes
+      if (isProtectedRoute) {
+        return isLoggedIn;
       }
 
-      if (isLoggedIn) {
-        return Response.redirect(new URL('/', nextUrl as unknown as URL));
-      }
-
+      // Allow public access to all other routes
       return true;
     },
   },
