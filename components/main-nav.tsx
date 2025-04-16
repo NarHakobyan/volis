@@ -1,42 +1,53 @@
 "use client";
 
 import Link from "next/link";
-import { Laptop, CreditCard, BarChart3, FileJson } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { FileText, BarChart3, Users, FileQuestion } from "lucide-react";
 
-const navItems = [
+interface NavItem {
+  label: string;
+  href: string;
+  icon?: React.ComponentType<{ className?: string }>;
+}
+
+const navItems: NavItem[] = [
   {
-    label: "Võimalused",
-    href: "/voimalused",
-    icon: Laptop,
+    label: "VOLIS avaleht",
+    href: "/",
   },
   {
-    label: "Hinnakiri",
-    href: "/hinnakiri",
-    icon: CreditCard,
+    label: "KOV",
+    href: "/kov",
+    icon: FileText,
   },
   {
     label: "Statistika",
-    href: "/statistika",
+    href: "/statistics",
     icon: BarChart3,
   },
   {
-    label: "VOLIS API kirjeldus",
-    href: "/api-kirjeldus",
-    icon: FileJson,
+    label: "Liikmesus",
+    href: "/membership",
+    icon: Users,
   },
-] as const;
+  {
+    label: "Kodanikualgatused",
+    href: "/initiatives",
+    icon: FileQuestion,
+  },
+];
 
-export function MainNav() {
+export function MainNav({ className }: { className?: string }) {
   return (
-    <nav className="flex items-center">
+    <nav className={cn("flex items-center", className)}>
       {navItems.map((item) => (
         <Link
           key={item.href}
           href={item.href}
-          className="flex h-10 items-center gap-2 px-4 py-3 text-white hover:bg-[#004882] hover:text-white"
+          className="flex h-full items-center gap-2 px-4 py-3 text-sm text-white hover:bg-[#004882] border-r border-[#004882]"
         >
-          <item.icon className="h-4 w-4" />
-          <span className="text-sm font-normal leading-[24px]">{item.label}</span>
+          {item.icon && <item.icon className="h-4 w-4" />}
+          {item.label}
         </Link>
       ))}
     </nav>

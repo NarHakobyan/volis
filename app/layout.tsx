@@ -2,12 +2,25 @@ import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
 import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from 'sonner';
+import { Roboto, Roboto_Condensed } from 'next/font/google';
 
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+
+const roboto = Roboto({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['300', '400', '500', '700'],
+  variable: '--font-roboto',
+});
+
+const robotoCondensed = Roboto_Condensed({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['300', '400', '700'],
+  variable: '--font-roboto-condensed',
+});
 
 export const metadata: Metadata = {
   title: 'VOLIS - Local Government Public Opinion Poll Environment',
@@ -47,6 +60,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      className={`${roboto.variable} ${robotoCondensed.variable}`}
       // `next-themes` injects an extra classname to the body element to avoid
       // visual flicker before hydration. Hence the `suppressHydrationWarning`
       // prop is necessary to avoid the React hydration mismatch warning.
