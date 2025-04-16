@@ -43,7 +43,7 @@ export function ActiveVotings() {
     <div className="absolute left-6 top-[120px] w-[360px] space-y-4">
       {mockVotings.map((voting) => (
         <Card key={voting.id} className="overflow-hidden">
-          <CardHeader className="border-b border-[#D8D9DF] bg-[#F0F0F2] pb-3 pt-3">
+          <CardHeader className="border-b border-[#D8D9DF] bg-white pb-3 pt-3">
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-[#005AA3]" />
               <span className="text-sm font-normal text-[#131317]">

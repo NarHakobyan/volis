@@ -76,7 +76,7 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          'min-h-screen bg-[#F0F0F2] font-sans antialiased',
+          'min-h-screen bg-white font-sans antialiased',
           GeistSans.className
         )}
       >

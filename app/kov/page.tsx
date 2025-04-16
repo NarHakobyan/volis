@@ -6,7 +6,7 @@ import { ChevronRight } from "lucide-react";
 
 export default function KOVPage() {
   return (
-    <div className="flex-1 bg-[#F0F0F2]">
+    <div className="flex-1 bg-white">
       <div className="mx-6 py-8 flex flex-col gap-8">
         {/* Main content */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
