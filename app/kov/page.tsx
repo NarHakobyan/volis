@@ -7,39 +7,39 @@ import { ChevronRight } from "lucide-react";
 export default function KOVPage() {
   return (
     <div className="flex-1 bg-[#F0F0F2]">
-      <div className="mx-6 py-8 flex flex-col gap-8">
+      <div className="mx-auto max-w-7xl px-6 py-8 flex flex-col gap-8">
         {/* Main content */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Youth Council Elections Card */}
-          <Card className="relative overflow-hidden h-[300px] flex items-center justify-center">
-            <div className="absolute inset-0 bg-[#C0C2C9] opacity-25 rounded-[10px] shadow-lg" />
+          <Card className="relative overflow-hidden h-[300px] flex items-center justify-center shadow-[0px_1px_5px_0px_rgba(0,0,0,0.2)]">
+            <div className="absolute inset-0 bg-[#C0C2C9] opacity-25 rounded-[10px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" />
             <Button
               size="icon"
-              className="absolute top-4 right-4 w-12 h-12 rounded-full bg-[#005AA3] hover:bg-[#004882]"
+              className="absolute top-4 right-4 w-12 h-12 rounded-full bg-[#005AA3] hover:bg-[#004882] border-2 border-[#005AA3]"
               asChild
             >
               <Link href="/kov/youth-council">
                 <ChevronRight className="h-6 w-6 text-white" />
               </Link>
             </Button>
-            <h2 className="text-[28px] text-[#005AA3] text-center z-10">
+            <h2 className="text-[28px] text-[#005AA3] text-center z-10 leading-[1.14] max-w-[80%] font-normal">
               Tartu linna noortevolikogu valimised
             </h2>
           </Card>
 
           {/* Participatory Budget Card */}
-          <Card className="relative overflow-hidden h-[300px] flex items-center justify-center">
-            <div className="absolute inset-0 bg-[#C0C2C9] opacity-25 rounded-[10px] shadow-lg" />
+          <Card className="relative overflow-hidden h-[300px] flex items-center justify-center shadow-[0px_1px_5px_0px_rgba(0,0,0,0.2)]">
+            <div className="absolute inset-0 bg-[#C0C2C9] opacity-25 rounded-[10px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]" />
             <Button
               size="icon"
-              className="absolute top-4 right-4 w-12 h-12 rounded-full bg-[#005AA3] hover:bg-[#004882]"
+              className="absolute top-4 right-4 w-12 h-12 rounded-full bg-[#005AA3] hover:bg-[#004882] border-2 border-[#005AA3]"
               asChild
             >
               <Link href="/kov/participatory-budget">
                 <ChevronRight className="h-6 w-6 text-white" />
               </Link>
             </Button>
-            <h2 className="text-[28px] text-[#005AA3] text-center z-10">
+            <h2 className="text-[28px] text-[#005AA3] text-center z-10 leading-[1.14] max-w-[80%] font-normal">
               Tartu kaasav eelarve 2024
             </h2>
           </Card>
@@ -47,7 +47,7 @@ export default function KOVPage() {
 
         {/* Archive Link */}
         <div className="flex justify-end">
-          <Button variant="link" asChild className="text-[#005AA3]">
+          <Button variant="link" asChild className="text-[#005AA3] hover:text-[#004882] font-normal text-base p-0">
             <Link href="/kov/archive" className="flex items-center gap-1">
               <ChevronRight className="h-4 w-4" />
               <span>Arhiiv</span>
@@ -56,7 +56,7 @@ export default function KOVPage() {
         </div>
 
         {/* Contact Information */}
-        <div className="text-right text-base leading-[1.71] text-black">
+        <div className="text-right text-base leading-[1.71] text-black font-normal">
           <p>Tartu Linnavolikogu ja linnavalitsuse infokeskus</p>
           <p>Raekoda, 51003 Tartu</p>
           <p>Tel 1789</p>
