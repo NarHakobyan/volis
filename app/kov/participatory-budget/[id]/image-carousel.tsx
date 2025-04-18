@@ -13,6 +13,7 @@ export function ImageCarousel() {
         fill
         className="object-cover"
         priority
+        sizes="(max-width: 1200px) 100vw, 1200px"
       />
       <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs py-2 px-4">
         Foto: Marti Viilu
@@ -21,14 +22,16 @@ export function ImageCarousel() {
         <Button
           variant="outline"
           size="icon"
-          className="h-10 w-10 rounded-full bg-white/80 hover:bg-white border-0"
+          className="h-10 w-10 rounded-full bg-white/80 hover:bg-white border-0 shadow-md"
+          aria-label="Previous image"
         >
           <ChevronLeft className="h-6 w-6" />
         </Button>
         <Button
           variant="outline"
           size="icon"
-          className="h-10 w-10 rounded-full bg-white/80 hover:bg-white border-0"
+          className="h-10 w-10 rounded-full bg-white/80 hover:bg-white border-0 shadow-md"
+          aria-label="Next image"
         >
           <ChevronRight className="h-6 w-6" />
         </Button>

@@ -10,6 +10,7 @@ export function ShareButtons() {
         variant="outline"
         size="sm"
         className="h-8 px-3 text-xs font-normal border-[#D9D9D9] text-[#595959] hover:bg-gray-50"
+        aria-label="Share"
       >
         <Share2 className="mr-2 h-4 w-4" />
         Jaga
@@ -18,6 +19,7 @@ export function ShareButtons() {
         variant="outline"
         size="icon"
         className="h-8 w-8 border-[#D9D9D9] text-[#595959] hover:bg-gray-50"
+        aria-label="Share on Facebook"
       >
         <Facebook className="h-4 w-4" />
       </Button>
@@ -25,6 +27,7 @@ export function ShareButtons() {
         variant="outline"
         size="icon"
         className="h-8 w-8 border-[#D9D9D9] text-[#595959] hover:bg-gray-50"
+        aria-label="Share on Twitter"
       >
         <Twitter className="h-4 w-4" />
       </Button>
