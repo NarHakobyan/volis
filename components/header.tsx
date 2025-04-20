@@ -13,7 +13,6 @@ export function Header() {
       <div className="border-b border-[#D8D9DF]">
         <div className="mx-6 flex h-10 items-center justify-between">
           <LanguageSwitcher />
-          <MainNav />
         </div>
       </div>
 

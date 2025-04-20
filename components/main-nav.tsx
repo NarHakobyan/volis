@@ -30,11 +30,6 @@ const navItems: NavItem[] = [
     href: "/membership",
     icon: Users,
   },
-  {
-    label: "Kodanikualgatused",
-    href: "/initiatives",
-    icon: FileQuestion,
-  },
 ];
 
 export function MainNav({ className }: { className?: string }) {

@@ -1,66 +1,147 @@
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Building2, Users2, BarChart3, Mail, Phone, MapPin } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function KOVPage() {
   return (
-    <div className="flex-1 bg-white">
-      <div className="mx-6 py-8 flex flex-col gap-8">
-        {/* Main content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Youth Council Elections Card */}
-          <Card className="relative overflow-hidden h-[300px] flex items-center justify-center">
-            <div className="absolute inset-0 bg-[#C0C2C9] opacity-25 rounded-[10px] shadow-lg" />
-            <Button
-              size="icon"
-              className="absolute top-4 right-4 w-12 h-12 rounded-full bg-[#005AA3] hover:bg-[#004882]"
-              asChild
-            >
-              <Link href="/kov/youth-council">
-                <ChevronRight className="h-6 w-6 text-white" />
-              </Link>
-            </Button>
-            <h2 className="text-[28px] text-[#005AA3] text-center z-10">
-              Tartu linna noortevolikogu valimised
-            </h2>
-          </Card>
-
-          {/* Participatory Budget Card */}
-          <Card className="relative overflow-hidden h-[300px] flex items-center justify-center">
-            <div className="absolute inset-0 bg-[#C0C2C9] opacity-25 rounded-[10px] shadow-lg" />
-            <Button
-              size="icon"
-              className="absolute top-4 right-4 w-12 h-12 rounded-full bg-[#005AA3] hover:bg-[#004882]"
-              asChild
-            >
-              <Link href="/kov/participatory-budget">
-                <ChevronRight className="h-6 w-6 text-white" />
-              </Link>
-            </Button>
-            <h2 className="text-[28px] text-[#005AA3] text-center z-10">
-              Tartu kaasav eelarve 2024
-            </h2>
-          </Card>
+    <div className="flex-1">
+      {/* Hero Section */}
+      <div className="relative h-[400px] w-full overflow-hidden">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center text-white space-y-4 max-w-3xl mx-auto px-4">
+            <h1 className="text-4xl md:text-5xl font-bold text-blue-500">Tartu Linna E-teenused</h1>
+            <p className="text-lg md:text-xl opacity-90 text-blue-500">
+              Osale linna arengus ja otsustusprotsessides läbi meie digitaalsete platvormide
+            </p>
+          </div>
         </div>
+      </div>
 
-        {/* Archive Link */}
-        <div className="flex justify-end">
-          <Button variant="link" asChild className="text-[#005AA3]">
-            <Link href="/kov/archive" className="flex items-center gap-1">
-              <ChevronRight className="h-4 w-4" />
-              <span>Arhiiv</span>
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        {/* Featured Sections */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+          {/* Youth Council Elections */}
+          <Card className="group hover:shadow-lg transition-all duration-300">
+            <Link href="/kov/youth-council" className="block">
+              <CardHeader className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <Users2 className="h-8 w-8 text-blue-600" />
+                  <ChevronRight className="h-6 w-6 text-blue-600 group-hover:translate-x-2 transition-transform" />
+                </div>
+                <CardTitle className="text-2xl text-blue-700">
+                  Noortevolikogu Valimised
+                </CardTitle>
+                <CardDescription className="text-base">
+                  Osale Tartu linna noortevolikogu valimistel ja aita kujundada noorte tulevikku
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-blue-50 p-4 rounded-lg">
+                  <p className="font-medium text-blue-900">Valimised on avatud</p>
+                  <p className="text-blue-700">10. aprill - 30. aprill 2024</p>
+                </div>
+              </CardContent>
             </Link>
-          </Button>
+          </Card>
+
+          {/* Participatory Budget */}
+          <Card className="group hover:shadow-lg transition-all duration-300">
+            <Link href="/kov/participatory-budget" className="block">
+              <CardHeader className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <BarChart3 className="h-8 w-8 text-green-600" />
+                  <ChevronRight className="h-6 w-6 text-green-600 group-hover:translate-x-2 transition-transform" />
+                </div>
+                <CardTitle className="text-2xl text-green-700">
+                  Kaasav Eelarve 2024
+                </CardTitle>
+                <CardDescription className="text-base">
+                  Hääleta oma lemmikprojektide poolt ja aita kaasa Tartu linna arengule
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="bg-green-50 p-4 rounded-lg">
+                  <p className="font-medium text-green-900">Hääletamine käib</p>
+                  <p className="text-green-700">Vali kuni 3 projekti</p>
+                </div>
+              </CardContent>
+            </Link>
+          </Card>
         </div>
 
-        {/* Contact Information */}
-        <div className="text-right text-base leading-[1.71] text-black">
-          <p>Tartu Linnavolikogu ja linnavalitsuse infokeskus</p>
-          <p>Raekoda, 51003 Tartu</p>
-          <p>Tel 1789</p>
-          <p>infokeskus@tartu.ee</p>
+        {/* Quick Links and Info */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Archive Section */}
+          <Card className="lg:col-span-2">
+            <CardHeader>
+              <CardTitle>Varasemad Projektid</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Tabs defaultValue="budget" className="w-full">
+                <TabsList className="w-full">
+                  <TabsTrigger value="budget" className="flex-1">Kaasav Eelarve</TabsTrigger>
+                  <TabsTrigger value="youth" className="flex-1">Noortevolikogu</TabsTrigger>
+                </TabsList>
+                <TabsContent value="budget" className="mt-4">
+                  <div className="space-y-4">
+                    <Link href="/kov/archive/budget-2023" className="block p-4 rounded-lg bg-gray-50 hover:bg-gray-100">
+                      <h3 className="font-medium">Kaasav Eelarve 2023</h3>
+                      <p className="text-sm text-gray-600">12 projekti, 3 võitjat</p>
+                    </Link>
+                    <Link href="/kov/archive/budget-2022" className="block p-4 rounded-lg bg-gray-50 hover:bg-gray-100">
+                      <h3 className="font-medium">Kaasav Eelarve 2022</h3>
+                      <p className="text-sm text-gray-600">15 projekti, 4 võitjat</p>
+                    </Link>
+                  </div>
+                </TabsContent>
+                <TabsContent value="youth" className="mt-4">
+                  <div className="space-y-4">
+                    <Link href="/kov/archive/youth-2023" className="block p-4 rounded-lg bg-gray-50 hover:bg-gray-100">
+                      <h3 className="font-medium">Noortevolikogu 2023</h3>
+                      <p className="text-sm text-gray-600">25 kandidaati, 15 valitud</p>
+                    </Link>
+                    <Link href="/kov/archive/youth-2022" className="block p-4 rounded-lg bg-gray-50 hover:bg-gray-100">
+                      <h3 className="font-medium">Noortevolikogu 2022</h3>
+                      <p className="text-sm text-gray-600">22 kandidaati, 15 valitud</p>
+                    </Link>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </CardContent>
+          </Card>
+
+          {/* Contact Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Võta Ühendust</CardTitle>
+              <CardDescription>Tartu Linnavolikogu ja linnavalitsuse infokeskus</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center gap-3 text-gray-700">
+                <MapPin className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                <p>Raekoda, 51003 Tartu</p>
+              </div>
+              <div className="flex items-center gap-3 text-gray-700">
+                <Phone className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                <p>Tel 1789</p>
+              </div>
+              <div className="flex items-center gap-3 text-gray-700">
+                <Mail className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                <p>infokeskus@tartu.ee</p>
+              </div>
+              <div className="pt-4">
+                <Button className="w-full" asChild>
+                  <Link href="mailto:infokeskus@tartu.ee">
+                    Saada Email
+                  </Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 ---
 description: Code Quality Guidelines
 globs:
+alwaysApply: false
 ---
 # Code Quality Guidelines
 
@@ -45,3 +46,204 @@ Always provide links to the real files, not x.md.
 
 ## No Current Implementation
 Don't show or discuss the current implementation unless specifically requested.
+
+## TypeScript Best Practices
+
+### Type Safety
+- Enable strict mode in `tsconfig.json`
+- Use explicit return types for public functions
+- Avoid `any` type - use `unknown` for dynamic data
+- Use type narrowing with type guards
+```typescript
+function isError(error: unknown): error is Error {
+  return error instanceof Error;
+}
+```
+
+### Type Definitions
+- Use interfaces for object shapes
+- Use type aliases for unions and complex types
+- Use const assertions for literal types
+- Leverage template literal types
+```typescript
+interface User {
+  id: string;
+  name: string;
+  role: 'admin' | 'user';
+}
+
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type Endpoint = `/api/${string}`;
+```
+
+## React Patterns
+
+### Component Structure
+- One component per file
+- Export components as named exports
+- Co-locate related components
+- Keep components focused and small
+```typescript
+// UserProfile.tsx
+export function UserProfile({ user }: UserProfileProps) {
+  return (
+    <div>
+      <UserHeader user={user} />
+      <UserDetails user={user} />
+    </div>
+  );
+}
+```
+
+### Props and State
+- Use destructuring for props
+- Define prop types with interfaces
+- Use controlled components for forms
+- Implement proper prop validation
+```typescript
+interface InputProps {
+  value: string;
+  onChange: (value: string) => void;
+  label: string;
+  error?: string;
+}
+```
+
+## Error Handling
+
+### Error Boundaries
+- Implement error boundaries at route level
+- Use try-catch for async operations
+- Provide meaningful error messages
+- Log errors appropriately
+```typescript
+try {
+  await api.saveData(data);
+} catch (error) {
+  if (isError(error)) {
+    logger.error('Failed to save data:', error.message);
+    throw new Error('Unable to save data. Please try again.');
+  }
+}
+```
+
+### Input Validation
+- Validate data at runtime with Zod
+- Implement proper form validation
+- Handle edge cases and invalid inputs
+```typescript
+const schema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
+```
+
+## Performance
+
+### Optimization Techniques
+- Use proper React hooks dependencies
+- Implement proper memoization
+- Avoid unnecessary re-renders
+- Use proper key props for lists
+```typescript
+const memoizedValue = useMemo(
+  () => computeExpensiveValue(a, b),
+  [a, b]
+);
+```
+
+### Code Splitting
+- Use dynamic imports for large components
+- Implement proper route-based code splitting
+- Lazy load non-critical components
+```typescript
+const DynamicComponent = dynamic(() => import('./DynamicComponent'), {
+  loading: () => <LoadingSpinner />
+});
+```
+
+## Testing
+
+### Unit Tests
+- Test component behavior, not implementation
+- Use meaningful test descriptions
+- Follow Arrange-Act-Assert pattern
+- Test error cases and edge conditions
+```typescript
+describe('UserProfile', () => {
+  it('should display error message when API fails', async () => {
+    // Arrange
+    const error = new Error('API Error');
+    mockApi.getUser.mockRejectedValue(error);
+
+    // Act
+    render(<UserProfile userId="123" />);
+    await waitFor(() => {
+      // Assert
+      expect(screen.getByText(/error/i)).toBeInTheDocument();
+    });
+  });
+});
+```
+
+### Integration Tests
+- Test component integration
+- Test user interactions
+- Test async operations
+- Test error scenarios
+```typescript
+test('form submission flow', async () => {
+  const user = userEvent.setup();
+  render(<LoginForm />);
+
+  await user.type(screen.getByLabelText(/email/i), 'test@example.com');
+  await user.type(screen.getByLabelText(/password/i), 'password123');
+  await user.click(screen.getByRole('button', { name: /submit/i }));
+
+  expect(await screen.findByText(/success/i)).toBeInTheDocument();
+});
+```
+
+## Code Style
+
+### Naming Conventions
+- Use PascalCase for components
+- Use camelCase for functions and variables
+- Use UPPER_CASE for constants
+- Use descriptive names
+```typescript
+const MAX_RETRIES = 3;
+function handleSubmit() { /* ... */ }
+export function UserProfile() { /* ... */ }
+```
+
+### File Organization
+- Group related files together
+- Use consistent file naming
+- Implement proper module boundaries
+- Keep files focused and small
+```
+components/
+  └── user/
+      ├── UserProfile.tsx
+      ├── UserHeader.tsx
+      ├── UserDetails.tsx
+      └── index.ts
+```
+
+### Comments and Documentation
+- Write self-documenting code
+- Add JSDoc for public APIs
+- Document complex logic
+- Keep comments up to date
+```typescript
+/**
+ * Fetches user data and handles error cases
+ * @param userId - The ID of the user to fetch
+ * @throws {ApiError} When the API request fails
+ * @returns Promise<User>
+ */
+async function fetchUser(userId: string): Promise<User> {
+  // Implementation
+}
+```

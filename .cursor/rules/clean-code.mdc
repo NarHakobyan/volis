@@ -1,8 +1,315 @@
 ---
 description: Guidelines for writing clean, maintainable, and human-readable code. Apply these rules when writing or reviewing code to ensure consistency and quality.
 globs:
+alwaysApply: false
 ---
 # Clean Code Guidelines
+
+## Core Principles
+
+### Clarity First
+- Write code for humans to read
+- Make intent clear through naming
+- Keep functions and components focused
+- Use meaningful abstractions
+```typescripta
+// Bad
+const x = users.f(u => u.a > 5);
+
+// Good
+const activeUsers = users.filter(user => user.activityScore > MINIMUM_ACTIVITY_SCORE);
+```
+
+### SOLID Principles
+- Single Responsibility Principle
+- Open/Closed Principle
+- Liskov Substitution Principle
+- Interface Segregation Principle
+- Dependency Inversion Principle
+```typescript
+// Single Responsibility
+class UserAuthentication {
+  async authenticate(credentials: Credentials): Promise<AuthResult> {
+    // Only handles authentication
+  }
+}
+
+class UserProfile {
+  async updateProfile(userId: string, data: ProfileData): Promise<void> {
+    // Only handles profile updates
+  }
+}
+```
+
+### DRY (Don't Repeat Yourself)
+- Extract common logic into reusable functions
+- Use composition for shared behavior
+- Create utility functions for repeated operations
+```typescript
+// Bad
+function validateEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function validateUserEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+// Good
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function validateEmail(email: string): boolean {
+  return EMAIL_REGEX.test(email);
+}
+```
+
+## Function Design
+
+### Function Signatures
+- Use descriptive parameter names
+- Limit number of parameters (max 3)
+- Use object parameters for many options
+- Return early for guard clauses
+```typescript
+// Bad
+function process(d: any, n: number, s: boolean) {
+  if (!d) return null;
+  if (n < 0) return null;
+  // Process data
+}
+
+// Good
+interface ProcessOptions {
+  data: unknown;
+  count: number;
+  shouldValidate: boolean;
+}
+
+function processData({ data, count, shouldValidate }: ProcessOptions) {
+  if (!data) return null;
+  if (count < 0) return null;
+  // Process data
+}
+```
+
+### Pure Functions
+- Avoid side effects when possible
+- Make dependencies explicit
+- Return new objects instead of mutating
+```typescript
+// Bad
+function updateUser(user: User) {
+  user.lastLogin = new Date();
+  user.loginCount++;
+}
+
+// Good
+function getUpdatedUser(user: User): User {
+  return {
+    ...user,
+    lastLogin: new Date(),
+    loginCount: user.loginCount + 1,
+  };
+}
+```
+
+## React Component Design
+
+### Component Organization
+- Split into logical chunks
+- Keep presentation separate from logic
+- Use custom hooks for complex logic
+- Implement proper prop drilling solutions
+```typescript
+// Bad
+function UserDashboard() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    // Fetch users
+  }, []);
+
+  return (
+    <div>
+      {loading && <Spinner />}
+      {error && <Error message={error.message} />}
+      <UserList users={users} />
+    </div>
+  );
+}
+
+// Good
+function useUsers() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    // Fetch users
+  }, []);
+
+  return { users, loading, error };
+}
+
+function UserDashboard() {
+  const { users, loading, error } = useUsers();
+
+  return (
+    <div>
+      {loading && <Spinner />}
+      {error && <Error message={error.message} />}
+      <UserList users={users} />
+    </div>
+  );
+}
+```
+
+### State Management
+- Keep state as local as possible
+- Use proper state initialization
+- Implement proper state updates
+- Handle loading and error states
+```typescript
+function useAsync<T>(asyncFn: () => Promise<T>) {
+  const [state, setState] = useState<{
+    status: 'idle' | 'loading' | 'success' | 'error';
+    data?: T;
+    error?: Error;
+  }>({
+    status: 'idle',
+  });
+
+  const execute = useCallback(async () => {
+    setState({ status: 'loading' });
+    try {
+      const data = await asyncFn();
+      setState({ status: 'success', data });
+    } catch (error) {
+      setState({ status: 'error', error: error as Error });
+    }
+  }, [asyncFn]);
+
+  return { ...state, execute };
+}
+```
+
+## Error Handling
+
+### Error Types
+- Use specific error types
+- Implement proper error hierarchies
+- Handle all possible error cases
+```typescript
+class ApiError extends Error {
+  constructor(
+    message: string,
+    public statusCode: number,
+    public code: string
+  ) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
+class ValidationError extends Error {
+  constructor(
+    message: string,
+    public field: string
+  ) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}
+```
+
+### Error Boundaries
+- Implement proper error recovery
+- Provide meaningful error messages
+- Log errors appropriately
+```typescript
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    logger.error('UI Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <ErrorFallback onReset={() => this.setState({ hasError: false })} />;
+    }
+
+    return this.props.children;
+  }
+}
+```
+
+## Testing
+
+### Test Organization
+- Group related tests
+- Use descriptive test names
+- Test edge cases and error paths
+- Implement proper test isolation
+```typescript
+describe('UserAuthentication', () => {
+  describe('login', () => {
+    it('should successfully authenticate valid credentials', async () => {
+      const auth = new UserAuthentication();
+      const result = await auth.login({
+        email: 'test@example.com',
+        password: 'valid-password',
+      });
+      expect(result.success).toBe(true);
+    });
+
+    it('should handle invalid credentials', async () => {
+      const auth = new UserAuthentication();
+      const result = await auth.login({
+        email: 'test@example.com',
+        password: 'invalid-password',
+      });
+      expect(result.success).toBe(false);
+      expect(result.error).toBe('Invalid credentials');
+    });
+  });
+});
+```
+
+### Test Utilities
+- Create reusable test helpers
+- Implement proper test factories
+- Use meaningful test data
+```typescript
+function createTestUser(override?: Partial<User>): User {
+  return {
+    id: 'test-id',
+    name: 'Test User',
+    email: 'test@example.com',
+    role: 'user',
+    ...override,
+  };
+}
+
+function createTestAuthResult(override?: Partial<AuthResult>): AuthResult {
+  return {
+    success: true,
+    token: 'test-token',
+    user: createTestUser(),
+    ...override,
+  };
+}
+```
 
 ## Constants Over Magic Numbers
 - Replace hard-coded values with named constants

@@ -3,50 +3,195 @@ description: Next.js with TypeScript and Tailwind UI best practices
 globs: **/*.tsx
 alwaysApply: false
 ---
-# Next.js Best Practices
+# Next.js 15 Development Guidelines
 
 ## Project Structure
-- Use the App Router directory structure
-- Place components in `app` directory for route-specific components
-- Place shared components in `components` directory
-- Place utilities and helpers in `lib` directory
-- Use lowercase with dashes for directories (e.g., `components/auth-wizard`)
+```
+/
+├── app/                    # App Router routes and layouts
+│   ├── (auth)/            # Auth-related routes (grouped)
+│   ├── (dashboard)/       # Dashboard routes (grouped)
+│   ├── api/               # API routes
+│   └── layout.tsx         # Root layout
+├── components/            # Shared components
+│   ├── ui/               # UI components
+│   └── forms/            # Form components
+├── lib/                   # Utilities and helpers
+├── hooks/                 # Custom React hooks
+├── types/                # TypeScript types/interfaces
+└── styles/               # Global styles
+```
 
-## Components
-- Use Server Components by default
-- Mark client components explicitly with 'use client'
-- Wrap client components in Suspense with fallback
-- Use dynamic loading for non-critical components
+## Component Architecture
+
+### Server Components (Default)
+- Use Server Components by default for better performance
+- Keep large dependencies server-side
+- Implement proper streaming with Suspense boundaries
+```typescript
+// Good: Server Component
+export default async function ProductList() {
+  const products = await fetchProducts();
+  return <div>{products.map(p => <Product key={p.id} {...p} />)}</div>;
+}
+```
+
+### Client Components
+- Mark with 'use client' directive only when needed
+- Use for interactive features and browser APIs
 - Implement proper error boundaries
-- Place static content and interfaces at file end
+```typescript
+'use client';
 
-## Performance
-- Optimize images: Use WebP format, size data, lazy loading
-- Minimize use of 'useEffect' and 'setState'
-- Favor Server Components (RSC) where possible
-- Use dynamic loading for non-critical components
-- Implement proper caching strategies
+import { useFormState } from 'react-dom';
+import { useFormStatus } from 'react-dom';
+
+export function SubmitButton() {
+  const { pending } = useFormStatus();
+  return <button disabled={pending}>Submit</button>;
+}
+```
 
 ## Data Fetching
-- Use Server Components for data fetching when possible
-- Implement proper error handling for data fetching
-- Use appropriate caching strategies
-- Handle loading and error states appropriately
 
-## Routing
-- Use the App Router conventions
-- Implement proper loading and error states for routes
-- Use dynamic routes appropriately
-- Handle parallel routes when needed
+### Server Actions
+- Use Server Actions for form submissions and mutations
+- Implement proper error handling and validation
+- Use Zod for type-safe validations
+```typescript
+export async function createPost(formData: FormData) {
+  const schema = z.object({
+    title: z.string().min(1),
+    content: z.string().min(10)
+  });
 
-## Forms and Validation
-- Use Zod for form validation
-- Implement proper server-side validation
-- Handle form errors appropriately
-- Show loading states during form submission
+  const result = schema.safeParse({
+    title: formData.get('title'),
+    content: formData.get('content')
+  });
+}
+```
+
+### Route Handlers
+- Use Route Handlers for API endpoints
+- Implement proper CORS and security headers
+- Handle rate limiting and authentication
+```typescript
+import { headers } from 'next/headers';
+
+export async function GET() {
+  const headersList = headers();
+  const token = headersList.get('authorization');
+
+  // Validate token and handle request
+}
+```
 
 ## State Management
+
+### Server-First Approach
 - Minimize client-side state
-- Use React Context sparingly
-- Prefer server state when possible
+- Use URL state for shareable UI states
 - Implement proper loading states
+```typescript
+'use client';
+
+import { useQueryState } from 'nuqs';
+
+export function FilterComponent() {
+  const [filter, setFilter] = useQueryState('filter');
+  // State is synced with URL
+}
+```
+
+## Performance Optimization
+
+### Image Optimization
+- Use next/image for automatic optimization
+- Implement proper loading strategies
+- Define appropriate sizes
+```typescript
+import Image from 'next/image';
+
+export function OptimizedImage() {
+  return (
+    <Image
+      src="/hero.jpg"
+      alt="Hero"
+      width={1200}
+      height={600}
+      priority={true}
+      sizes="(max-width: 768px) 100vw, 1200px"
+    />
+  );
+}
+```
+
+### Route Optimization
+- Implement proper loading.tsx and error.tsx
+- Use generateMetadata for SEO
+- Handle parallel routes effectively
+```typescript
+export async function generateMetadata() {
+  return {
+    title: 'Dynamic Page Title',
+    description: 'Dynamic description'
+  };
+}
+```
+
+## TypeScript Best Practices
+
+### Type Safety
+- Use strict TypeScript configuration
+- Implement proper type inference
+- Use discriminated unions for complex states
+```typescript
+type RequestState<T> =
+  | { status: 'idle' }
+  | { status: 'loading' }
+  | { status: 'success'; data: T }
+  | { status: 'error'; error: Error };
+```
+
+### Component Props
+- Use proper prop typing
+- Implement children prop typing
+- Use generics when needed
+```typescript
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary';
+  isLoading?: boolean;
+  children: React.ReactNode;
+}
+```
+
+## Testing
+
+### Component Testing
+- Use React Testing Library
+- Implement proper integration tests
+- Test error boundaries and loading states
+```typescript
+import { render, screen } from '@testing-library/react';
+
+test('renders component', () => {
+  render(<Component />);
+  expect(screen.getByRole('button')).toBeInTheDocument();
+});
+```
+
+### API Testing
+- Implement proper API tests
+- Use MSW for mocking
+- Test error scenarios
+```typescript
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+
+const server = setupServer(
+  rest.get('/api/data', (req, res, ctx) => {
+    return res(ctx.json({ data: 'test' }));
+  })
+);
+```
