@@ -15,7 +15,7 @@ import { ImageCarousel } from "./image-carousel";
 import { ShareButtons } from "./share-buttons";
 import { cn } from "@/lib/utils";
 
-export default function ProposalDetailPage({ params }: { params: { id: string } }) {
+export default function ProposalDetailPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="mx-auto max-w-7xl px-6 py-8">

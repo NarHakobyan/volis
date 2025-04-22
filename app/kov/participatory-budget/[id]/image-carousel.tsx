@@ -14,12 +14,12 @@ const images = [
     caption: "Foto: Marti Viilu",
   },
   {
-    src: "/images/anne-kanal-2.jpg",
+    src: "/images/anne-kanal.jpg",
     alt: "Planeeritav piknikuala",
     caption: "Visualiseering: Arhitektuuribüroo",
   },
   {
-    src: "/images/anne-kanal-3.jpg",
+    src: "/images/anne-kanal.jpg",
     alt: "Planeeritav mänguväljak",
     caption: "Visualiseering: Arhitektuuribüroo",
   },

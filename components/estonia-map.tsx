@@ -6,6 +6,7 @@ import { Feature } from "geojson";
 import { useRouter } from "next/navigation";
 import { Search, ZoomIn, ZoomOut } from "lucide-react";
 import { Button } from "./ui/button";
+import type { LatLngTuple } from "leaflet";
 
 // Estonia's approximate center coordinates
 const CENTER_POSITION = [58.5953, 25.0136];
@@ -38,7 +39,7 @@ export function EstoniaMap() {
   return (
     <div className="relative h-[600px] w-full">
       <MapContainer
-        center={CENTER_POSITION}
+        center={CENTER_POSITION as LatLngTuple}
         zoom={ZOOM_LEVEL}
         className="h-full w-full"
         scrollWheelZoom={false}
