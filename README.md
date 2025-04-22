@@ -41,8 +41,7 @@
 - [shadcn/ui](https://ui.shadcn.com)
   - Styling with [Tailwind CSS](https://tailwindcss.com)
   - Component primitives from [Radix UI](https://radix-ui.com) for accessibility and flexibility
-- Data Persistence
-  - [Vercel Postgres powered by Neon](https://vercel.com/storage/postgres) for saving CV analysis and user data
+- Data Storage
   - [Vercel Blob](https://vercel.com/storage/blob) for efficient CV file storage
 - [NextAuth.js](https://github.com/nextauthjs/next-auth)
   - Simple and secure authentication
@@ -85,7 +84,7 @@ For optimal CV-Job matching performance, we recommend using models with strong r
 
 You can deploy your own version of the CV-Job Matching AI to Vercel with one click:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fai-chatbot&env=AUTH_SECRET,OPENAI_API_KEY&envDescription=Learn%20more%20about%20how%20to%20get%20the%20API%20Keys%20for%20the%20application&envLink=https%3A%2F%2Fgithub.com%2Fvercel%2Fai-chatbot%2Fblob%2Fmain%2F.env.example&demo-title=CV-Job%20Matching%20AI&demo-description=An%20AI-powered%20tool%20for%20matching%20CVs%20with%20job%20requirements%20and%20providing%20detailed%20analysis.&demo-url=https%3A%2F%2Fchat.vercel.ai&stores=[{%22type%22:%22postgres%22},{%22type%22:%22blob%22}])
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fai-chatbot&env=AUTH_SECRET,OPENAI_API_KEY&envDescription=Learn%20more%20about%20how%20to%20get%20the%20API%20Keys%20for%20the%20application&envLink=https%3A%2F%2Fgithub.com%2Fvercel%2Fai-chatbot%2Fblob%2Fmain%2F.env.example&demo-title=CV-Job%20Matching%20AI&demo-description=An%20AI-powered%20tool%20for%20matching%20CVs%20with%20job%20requirements%20and%20providing%20detailed%20analysis.&demo-url=https%3A%2F%2Fchat.vercel.ai&stores=[{%22type%22:%22blob%22}])
 
 ## Running locally
 

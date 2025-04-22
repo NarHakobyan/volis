@@ -190,7 +190,7 @@ export default function KOVPage() {
                       {[2023, 2022, 2021, 2020].map((year) => (
                         <Link
                           key={year}
-                          href={`/kov/archive/budget-${year}`}
+                          href={`/kov/participatory-budget/${year}`}
                           className="block p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
                         >
                           <div className="flex items-center justify-between">
@@ -216,7 +216,7 @@ export default function KOVPage() {
                       {[2023, 2022, 2021, 2020].map((year) => (
                         <Link
                           key={year}
-                          href={`/kov/archive/youth-${year}`}
+                          href={`/kov/participatory-budget/${year}`}
                           className="block p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
                         >
                           <div className="flex items-center justify-between">

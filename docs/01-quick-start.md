@@ -5,7 +5,6 @@ Volis is a web application built using [Next.js 14](https://nextjs.org) that pro
 ### Pre-requisites:
 
 - Node.js 18.17 or later
-- PostgreSQL database
 - pnpm package manager
 
 ### Local Development Setup
@@ -27,12 +26,7 @@ pnpm install
 cp .env.example .env.local
 ```
 
-4. Run database migrations:
-```bash
-pnpm db:migrate
-```
-
-5. Start the development server:
+4. Start the development server:
 ```bash
 pnpm dev
 ```
@@ -45,11 +39,10 @@ The application will be available at `http://localhost:3000`.
 volis/
 ├── app/                # Next.js app directory
 ├── components/         # React components
-├── lib/               # Utility functions and database setup
+├── lib/               # Utility functions
 ├── public/            # Static assets
 ├── tests/             # Test files
-├── docs/              # Documentation
-└── drizzle/           # Database migrations and schema
+└── docs/              # Documentation
 ```
 
 ### Key Features
@@ -78,18 +71,6 @@ pnpm test
 For end-to-end tests:
 ```bash
 pnpm test:e2e
-```
-
-### Database Migrations
-
-To create a new migration:
-```bash
-pnpm db:generate
-```
-
-To apply migrations:
-```bash
-pnpm db:migrate
 ```
 
 For more detailed information about specific features, please refer to the other documentation files in the `docs` folder.
