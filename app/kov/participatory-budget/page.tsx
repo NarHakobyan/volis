@@ -1,15 +1,45 @@
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, Info, Search, Filter, ArrowUpDown, MapPin, Calendar, Users, Euro } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
+"use client"
+
+import { useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { motion } from "framer-motion"
+import { Euro, Users2, Calendar, ChevronRight, Search, MapPin, Info } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "@/components/ui/card"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { StatisticsCard } from "@/components/ui/statistics-card"
+import { ProjectCard } from "@/components/ui/project-card"
+import { ProjectFilters } from "@/components/ui/project-filters"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+// Sample data - replace with real data from your backend
+const categories = [
+  { value: "transport", label: "Transport", count: 5 },
+  { value: "vaba-aeg", label: "Vaba aeg", count: 8 },
+  { value: "noored", label: "Noored", count: 4 },
+  { value: "haridus", label: "Haridus", count: 6 },
+  { value: "keskkond", label: "Keskkond", count: 3 },
+  { value: "kultuur", label: "Kultuur", count: 4 },
+]
+
+const locations = [
+  { value: "kesklinn", label: "Kesklinn", count: 12 },
+  { value: "annelinn", label: "Annelinn", count: 8 },
+  { value: "tahtvere", label: "Tähtvere", count: 5 },
+  { value: "karlova", label: "Karlova", count: 4 },
+  { value: "supilinn", label: "Supilinn", count: 3 },
+]
+
+const sortOptions = [
+  { value: "votes", label: "Enim hääli" },
+  { value: "cost-asc", label: "Maksumus: madalaim" },
+  { value: "cost-desc", label: "Maksumus: kõrgeim" },
+  { value: "name", label: "Tähestikuline" },
+]
 
 const projects = [
   {
@@ -75,36 +105,68 @@ const projects = [
 ];
 
 export default function ParticipantBudgetPage() {
+  const [selectedFilters, setSelectedFilters] = useState({
+    categories: [],
+    locations: [],
+    sort: "votes",
+  })
+  const [searchQuery, setSearchQuery] = useState("")
+  const [votedProjects, setVotedProjects] = useState<string[]>([])
+
+  const handleFilterChange = (type: "categories" | "locations" | "sort", value: string[] | string) => {
+    setSelectedFilters(prev => ({
+      ...prev,
+      [type]: value
+    }))
+  }
+
+  const handleVote = (projectId: string) => {
+    if (votedProjects.length >= 3 && !votedProjects.includes(projectId)) {
+      // Show max votes reached notification
+      return
+    }
+    setVotedProjects(prev =>
+      prev.includes(projectId)
+        ? prev.filter(id => id !== projectId)
+        : [...prev, projectId]
+    )
+  }
+
   return (
     <div className="flex-1 min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
-      <div className="relative h-[400px] w-full overflow-hidden">
+      <div className="relative h-[500px] w-full overflow-hidden">
         <Image
           src="/images/participatory-budget-hero.jpg"
           alt="Participatory Budget"
           fill
-          className="object-cover brightness-75"
+          className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-transparent">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-900/70">
           <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
-            <div className="max-w-2xl text-white space-y-6">
-              <Badge className="bg-green-500/20 text-green-100 border-green-400/20 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-2xl text-white space-y-6"
+            >
+              <Badge className="bg-blue-500/20 text-blue-100 border-blue-400/20 backdrop-blur-sm">
                 Hääletamine avatud
               </Badge>
-              <h1 className="text-4xl font-bold leading-tight">
+              <h1 className="text-5xl font-bold leading-tight">
                 Tartu Kaasav Eelarve 2024
               </h1>
-              <p className="text-xl text-gray-200">
+              <p className="text-xl text-blue-100">
                 Vali kuni kolm projekti, mis aitavad muuta Tartut paremaks kohaks elamiseks
               </p>
-              <div className="flex items-center gap-6 text-gray-200 text-sm">
+              <div className="flex items-center gap-6 text-blue-200 text-sm pt-4">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4" />
                   <span>Kuni 30. aprill</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4" />
+                  <Users2 className="h-4 w-4" />
                   <span>1,720 hääletajat</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -112,247 +174,163 @@ export default function ParticipantBudgetPage() {
                   <span>200,000€ eelarve</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
-        {/* Breadcrumbs */}
-        <Card className="mb-6">
-          <CardContent className="py-3 flex items-center gap-2 text-sm">
-            <Link href="/kov" className="text-blue-600 hover:underline">
-              KOV avaleht
-            </Link>
-            <ChevronRight className="h-4 w-4 text-gray-500" />
-            <span className="text-gray-600">Tartu kaasav eelarve 2024</span>
-          </CardContent>
-        </Card>
+      {/* Statistics Section */}
+      <div className="relative -mt-16 mb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <StatisticsCard
+              icon={<Users2 className="h-6 w-6 text-blue-600" />}
+              label="Aktiivsed osalejad"
+              value="1,720"
+              trend={{ value: 12, isPositive: true }}
+            />
+            <StatisticsCard
+              icon={<Euro className="h-6 w-6 text-green-600" />}
+              label="Kaasava eelarve maht"
+              value="200,000€"
+            />
+            <StatisticsCard
+              icon={<MapPin className="h-6 w-6 text-purple-600" />}
+              label="Projektide arv"
+              value="32"
+              trend={{ value: 8, isPositive: true }}
+            />
+          </div>
+        </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Filters Sidebar */}
-          <Card className="lg:col-span-1 h-fit">
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">Filtrid</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Kategooria</label>
-                <Select defaultValue="all">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Vali kategooria" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Kõik kategooriad</SelectItem>
-                    <SelectItem value="transport">Transport</SelectItem>
-                    <SelectItem value="vaba-aeg">Vaba aeg</SelectItem>
-                    <SelectItem value="noored">Noored</SelectItem>
-                    <SelectItem value="haridus">Haridus</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Piirkond</label>
-                <Select defaultValue="all">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Vali piirkond" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Kõik piirkonnad</SelectItem>
-                    <SelectItem value="kesklinn">Kesklinn</SelectItem>
-                    <SelectItem value="annelinn">Annelinn</SelectItem>
-                    <SelectItem value="tahtvere">Tähtvere</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Järjestus</label>
-                <Select defaultValue="votes">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Vali järjestus" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="votes">Enim hääli</SelectItem>
-                    <SelectItem value="cost-asc">Maksumus: madalaim</SelectItem>
-                    <SelectItem value="cost-desc">Maksumus: kõrgeim</SelectItem>
-                    <SelectItem value="name">Tähestikuline</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="pt-4">
-                <Button className="w-full" variant="outline">
-                  Lähtesta filtrid
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Main Content */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Search */}
-            <div className="flex gap-4">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
-                <Input
-                  placeholder="Otsi projekti nime või kirjelduse järgi..."
-                  className="pl-9"
-                />
-              </div>
-            </div>
-
-            {/* View Toggle */}
-            <Tabs defaultValue="grid" className="w-full">
-              <div className="flex items-center justify-between mb-4">
-                <div className="text-sm text-gray-600">
-                  Kuvatakse 5 projekti
-                </div>
-                <TabsList className="grid w-[200px] grid-cols-2">
-                  <TabsTrigger value="grid">Kaardid</TabsTrigger>
-                  <TabsTrigger value="list">Nimekiri</TabsTrigger>
-                </TabsList>
-              </div>
-
-              <TabsContent value="grid" className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {projects.map((project) => (
-                    <Card key={project.id} className="group hover:shadow-lg transition-all duration-300 overflow-hidden">
-                      <div className="relative h-48">
-                        <Image
-                          src={project.image}
-                          alt={project.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                        <div className="absolute top-4 left-4 flex items-center gap-2">
-                          <Badge className="bg-white/90 text-gray-900">
-                            {project.category}
-                          </Badge>
-                          <Badge variant="outline" className="text-white border-white/30">
-                            {project.id}
-                          </Badge>
-                        </div>
-                      </div>
-                      <CardContent className="p-6">
-                        <div className="flex items-start gap-4">
-                          <div className="flex-1 min-w-0">
-                            <h3 className="font-medium text-gray-900 text-lg mb-2 line-clamp-2">
-                              {project.title}
-                            </h3>
-                            <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                              {project.description}
-                            </p>
-                            <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
-                              <div className="flex items-center gap-1.5">
-                                <MapPin className="h-4 w-4" />
-                                <span>{project.location}</span>
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <Euro className="h-4 w-4" />
-                                <span>{project.cost}€</span>
-                              </div>
-                            </div>
-                            <div className="space-y-2">
-                              <div className="flex items-center justify-between text-sm">
-                                <span className="text-gray-600">{project.votes} häält</span>
-                                <span className="font-medium text-blue-600">{project.progress}%</span>
-                              </div>
-                              <Progress value={project.progress} className="h-2" />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="mt-6">
-                          <Button className="w-full">
-                            Hääleta
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="list" className="mt-0">
-                <Card>
-                  <CardContent className="p-0">
-                    <div className="divide-y">
-                      {projects.map((project) => (
-                        <div key={project.id} className="p-4 hover:bg-gray-50">
-                          <div className="flex items-start gap-4">
-                            <div className="relative h-24 w-32 flex-shrink-0 rounded-lg overflow-hidden">
-                              <Image
-                                src={project.image}
-                                alt={project.title}
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 mb-1">
-                                <Badge className="bg-gray-100 text-gray-900">
-                                  {project.category}
-                                </Badge>
-                                <Badge variant="outline">
-                                  {project.id}
-                                </Badge>
-                              </div>
-                              <h3 className="font-medium text-gray-900 mb-1">
-                                {project.title}
-                              </h3>
-                              <p className="text-sm text-gray-600 mb-2 line-clamp-2">
-                                {project.description}
-                              </p>
-                              <div className="flex items-center gap-4 text-sm">
-                                <div className="flex items-center gap-1.5 text-gray-600">
-                                  <MapPin className="h-4 w-4" />
-                                  <span>{project.location}</span>
-                                </div>
-                                <div className="flex items-center gap-1.5 text-gray-600">
-                                  <Euro className="h-4 w-4" />
-                                  <span>{project.cost}€</span>
-                                </div>
-                                <div className="flex items-center gap-1.5 text-gray-600">
-                                  <Users className="h-4 w-4" />
-                                  <span>{project.votes} häält</span>
-                                </div>
-                              </div>
-                            </div>
-                            <Button className="flex-shrink-0">
-                              Hääleta
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            </Tabs>
-
-            {/* Info Card */}
-            <Card className="bg-blue-50 border-blue-100">
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar */}
+          <div className="lg:col-span-1 space-y-6">
+            <Card >
               <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="p-2 bg-blue-100 rounded-lg">
-                    <Info className="h-5 w-5 text-blue-600" />
-                  </div>
+                <div className="space-y-6">
                   <div className="space-y-2">
-                    <h3 className="font-medium text-blue-900">Hääletamise info</h3>
-                    <p className="text-sm text-blue-800">
-                      Iga tartlane saab hääletada kuni kolme projekti poolt. Hääletada saavad kõik vähemalt 14-aastased
-                      Tartu linna elanikud, kelle elukoht on rahvastikuregistri andmetel Tartu linn, ning Tartu linnas
-                      õppivad 14–26-aastased noored.
+                    <h3 className="font-medium text-gray-900">Sinu hääled</h3>
+                    <p className="text-sm text-gray-600">
+                      {votedProjects.length}/3 häält antud
                     </p>
+                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-blue-600 transition-all duration-300"
+                        style={{ width: `${(votedProjects.length / 3) * 100}%` }}
+                      />
+                    </div>
                   </div>
+
+                  {votedProjects.length > 0 ? (
+                    <ScrollArea className="h-[200px]">
+                      <div className="space-y-2">
+                        {votedProjects.map(projectId => {
+                          const project = projects.find(p => p.id === projectId)
+                          if (!project) return null
+                          return (
+                            <ProjectCard
+                              key={project.id}
+                              project={project}
+                              variant="compact"
+                              showVoteButton={false}
+                            />
+                          )
+                        })}
+                      </div>
+                      <ScrollBar orientation="vertical" />
+                    </ScrollArea>
+                  ) : (
+                    <div className="text-sm text-gray-600 text-center py-8">
+                      Sa pole veel ühtegi projekti valinud
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
+
+            <Alert className="bg-blue-50 border-blue-100">
+              <Info className="h-4 w-4 text-blue-600" />
+              <AlertDescription className="text-sm text-blue-800">
+                Hääletada saavad kõik vähemalt 14-aastased Tartu linna elanikud.
+              </AlertDescription>
+            </Alert>
+          </div>
+
+          {/* Projects Grid */}
+          <div className="lg:col-span-3 space-y-6">
+            <div className="space-y-6">
+              <div className="flex flex-col gap-6">
+                <div className="flex items-center gap-4">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+                    <Input
+                      placeholder="Otsi projekti nime või kirjelduse järgi..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-9"
+                    />
+                  </div>
+                </div>
+
+                <ProjectFilters
+                  categories={categories}
+                  locations={locations}
+                  sortOptions={sortOptions}
+                  selectedFilters={selectedFilters}
+                  onFilterChange={handleFilterChange}
+                />
+              </div>
+
+              <Tabs defaultValue="grid" className="w-full">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm text-gray-600">
+                    Kuvatakse {projects.length} projekti
+                  </div>
+                  <TabsList className="grid w-[200px] grid-cols-2">
+                    <TabsTrigger value="grid">Kaardid</TabsTrigger>
+                    <TabsTrigger value="list">Nimekiri</TabsTrigger>
+                  </TabsList>
+                </div>
+
+                <TabsContent value="grid" className="mt-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {projects.map((project) => (
+                      <ProjectCard
+                        key={project.id}
+                        project={project}
+                        isVoted={votedProjects.includes(project.id)}
+                        onVote={() => handleVote(project.id)}
+                      />
+                    ))}
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="list" className="mt-6">
+                  <Card>
+                    <CardContent className="p-0">
+                      <div className="divide-y">
+                        {projects.map((project) => (
+                          <ProjectCard
+                            key={project.id}
+                            project={project}
+                            variant="compact"
+                            isVoted={votedProjects.includes(project.id)}
+                            onVote={() => handleVote(project.id)}
+                          />
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
