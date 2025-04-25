@@ -12,11 +12,11 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    label: "VOLIS avaleht",
+    label: "Avaleht",
     href: "/",
   },
   {
-    label: "KOV",
+    label: "Võimalused",
     href: "/kov",
     icon: FileText,
   },
@@ -26,7 +26,7 @@ const navItems: NavItem[] = [
     icon: BarChart3,
   },
   {
-    label: "Liikmesus",
+    label: "API kirjeldus",
     href: "/membership",
     icon: Users,
   },

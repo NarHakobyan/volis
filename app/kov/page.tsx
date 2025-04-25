@@ -113,7 +113,7 @@ export default function KOVPage() {
             <Link href="/kov/youth-council" className="block">
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src="/images/youth-council.jpg"
+                  src="/images/youth-council-meeting.jpg"
                   alt="Youth Council"
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -121,7 +121,7 @@ export default function KOVPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
                   <Badge className="bg-purple-500 mb-2">Aktiivne</Badge>
-                  <h3 className="text-2xl font-bold text-white">Noortevolikogu Valimised</h3>
+                  <h3 className="text-2xl font-bold text-white drop-shadow-md">Noortevolikogu Valimised</h3>
                 </div>
               </div>
               <CardContent className="p-6">
@@ -143,10 +143,16 @@ export default function KOVPage() {
           <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
             <Link href="/kov/participatory-budget" className="block">
               <div className="relative h-48 overflow-hidden">
+                <Image
+                  src="/images/participatory-budget.jpg"
+                  alt="Participatory Budget"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
                   <Badge className="bg-green-500 mb-2">Hääletamine käib</Badge>
-                  <h3 className="text-2xl font-bold text-white">Kaasav Eelarve 2024</h3>
+                  <h3 className="text-2xl font-bold text-white drop-shadow-md">Kaasav Eelarve 2024</h3>
                 </div>
               </div>
               <CardContent className="p-6">
@@ -175,8 +181,8 @@ export default function KOVPage() {
             <CardContent>
               <Tabs defaultValue="budget" className="w-full">
                 <TabsList className="w-full grid grid-cols-2">
-                  <TabsTrigger value="budget">Kaasav Eelarve</TabsTrigger>
-                  <TabsTrigger value="youth">Noortevolikogu</TabsTrigger>
+                  <TabsTrigger value="budget" className="text-blue-950">Kaasav Eelarve</TabsTrigger>
+                  <TabsTrigger value="youth" className="text-purple-950">Noortevolikogu</TabsTrigger>
                 </TabsList>
                 <TabsContent value="budget" className="mt-6">
                   <ScrollArea className="h-[300px] pr-4">
@@ -189,15 +195,15 @@ export default function KOVPage() {
                         >
                           <div className="flex items-center justify-between">
                             <div>
-                              <h3 className="font-medium text-lg">Kaasav Eelarve {year}</h3>
-                              <p className="text-sm text-gray-600 mt-1">
+                              <h3 className="font-medium text-lg text-blue-950">Kaasav Eelarve {year}</h3>
+                              <p className="text-sm text-blue-800 mt-1">
                                 {year === 2023 ? "12 projekti, 3 võitjat" :
                                  year === 2022 ? "15 projekti, 4 võitjat" :
                                  year === 2021 ? "10 projekti, 3 võitjat" :
                                  "14 projekti, 4 võitjat"}
                               </p>
                             </div>
-                            <ChevronRight className="h-5 w-5 text-gray-400" />
+                            <ChevronRight className="h-5 w-5 text-blue-400" />
                           </div>
                         </Link>
                       ))}
@@ -215,15 +221,15 @@ export default function KOVPage() {
                         >
                           <div className="flex items-center justify-between">
                             <div>
-                              <h3 className="font-medium text-lg">Noortevolikogu {year}</h3>
-                              <p className="text-sm text-gray-600 mt-1">
+                              <h3 className="font-medium text-lg text-purple-950">Noortevolikogu {year}</h3>
+                              <p className="text-sm text-purple-800 mt-1">
                                 {year === 2023 ? "25 kandidaati, 15 valitud" :
                                  year === 2022 ? "22 kandidaati, 15 valitud" :
                                  year === 2021 ? "20 kandidaati, 15 valitud" :
                                  "18 kandidaati, 15 valitud"}
                               </p>
                             </div>
-                            <ChevronRight className="h-5 w-5 text-gray-400" />
+                            <ChevronRight className="h-5 w-5 text-purple-400" />
                           </div>
                         </Link>
                       ))}

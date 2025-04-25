@@ -28,8 +28,8 @@ export default function HomePage() {
                 <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-4">
                   <Vote className="w-6 h-6 text-blue-600" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Kaasav eelarve</h3>
-                <p className="text-gray-600 mb-4">
+                <h3 className="text-lg font-medium text-blue-950 mb-2">Kaasav eelarve</h3>
+                <p className="text-blue-800 mb-4">
                   Osale linna eelarve planeerimisel ja hääleta projektide poolt, mis muudavad sinu linna paremaks.
                 </p>
                 <Button asChild variant="outline" className="mt-auto">
@@ -42,8 +42,8 @@ export default function HomePage() {
                 <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-4">
                   <Users2 className="w-6 h-6 text-purple-600" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Noortekogu valimised</h3>
-                <p className="text-gray-600 mb-4">
+                <h3 className="text-lg font-medium text-purple-950 mb-2">Noortekogu valimised</h3>
+                <p className="text-purple-800 mb-4">
                   Vali oma esindajad noortevolikokku ja aita kujundada noorte tulevikku oma linnas.
                 </p>
                 <Button asChild variant="outline" className="mt-auto">
