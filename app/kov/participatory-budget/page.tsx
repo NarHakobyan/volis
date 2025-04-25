@@ -16,6 +16,7 @@ import { ProjectFilters } from "@/components/ui/project-filters"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ProposalModal } from "@/components/ui/proposal-modal"
+import { CategoriesChart } from "@/components/ui/categories-chart"
 
 // Sample data - replace with real data from your backend
 const categories = [
@@ -217,6 +218,11 @@ export default function ParticipantBudgetPage() {
                         style={{ width: `${(votedProjects.length / 3) * 100}%` }}
                       />
                     </div>
+                  </div>
+
+                  <div className="border-t border-gray-100 pt-4">
+                    <h4 className="font-medium text-gray-900 mb-3">Kategooriad</h4>
+                    <CategoriesChart data={categories} />
                   </div>
 
                   {votedProjects.length > 0 ? (

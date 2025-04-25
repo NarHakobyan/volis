@@ -175,7 +175,7 @@ export default function KOVPage() {
           {/* Archive Section */}
           <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle className="text-2xl">Varasemad Projektid</CardTitle>
+              <CardTitle className="text-2xl">Varasemad hääletused</CardTitle>
               <CardDescription>Tutvu eelmiste aastate projektide ja tulemustega</CardDescription>
             </CardHeader>
             <CardContent>
