@@ -143,12 +143,6 @@ export default function KOVPage() {
           <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
             <Link href="/kov/participatory-budget" className="block">
               <div className="relative h-48 overflow-hidden">
-                <Image
-                  src="/images/participatory-budget.jpg"
-                  alt="Participatory Budget"
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
                   <Badge className="bg-green-500 mb-2">Hääletamine käib</Badge>

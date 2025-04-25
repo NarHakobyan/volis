@@ -15,6 +15,7 @@ import { ProjectCard } from "@/components/ui/project-card"
 import { ProjectFilters } from "@/components/ui/project-filters"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ProposalModal } from "@/components/ui/proposal-modal"
 
 // Sample data - replace with real data from your backend
 const categories = [
@@ -136,13 +137,6 @@ export default function ParticipantBudgetPage() {
     <div className="flex-1 min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
       <div className="relative h-[500px] w-full overflow-hidden">
-        <Image
-          src="/images/participatory-budget-hero.jpg"
-          alt="Participatory Budget"
-          fill
-          className="object-cover"
-          priority
-        />
         <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-900/70">
           <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
             <motion.div
@@ -262,72 +256,69 @@ export default function ParticipantBudgetPage() {
 
           {/* Projects Grid */}
           <div className="lg:col-span-3 space-y-6">
-            <div className="space-y-6">
-              <div className="flex flex-col gap-6">
-                <div className="flex items-center gap-4">
-                  <div className="relative flex-1">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
-                    <Input
-                      placeholder="Otsi projekti nime või kirjelduse järgi..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      className="pl-9"
-                    />
-                  </div>
-                </div>
-
-                <ProjectFilters
-                  categories={categories}
-                  locations={locations}
-                  sortOptions={sortOptions}
-                  selectedFilters={selectedFilters}
-                  onFilterChange={handleFilterChange}
+            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
+                <Input
+                  className="pl-9"
+                  placeholder="Otsi projekte..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-
-              <Tabs defaultValue="grid" className="w-full">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm text-gray-600">
-                    Kuvatakse {projects.length} projekti
-                  </div>
-                  <TabsList className="grid w-[200px] grid-cols-2">
-                    <TabsTrigger value="grid">Kaardid</TabsTrigger>
-                    <TabsTrigger value="list">Nimekiri</TabsTrigger>
-                  </TabsList>
-                </div>
-
-                <TabsContent value="grid" className="mt-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {projects.map((project) => (
-                      <ProjectCard
-                        key={project.id}
-                        project={project}
-                        isVoted={votedProjects.includes(project.id)}
-                        onVote={() => handleVote(project.id)}
-                      />
-                    ))}
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="list" className="mt-6">
-                  <Card>
-                    <CardContent className="p-0">
-                      <div className="divide-y">
-                        {projects.map((project) => (
-                          <ProjectCard
-                            key={project.id}
-                            project={project}
-                            variant="compact"
-                            isVoted={votedProjects.includes(project.id)}
-                            onVote={() => handleVote(project.id)}
-                          />
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-              </Tabs>
+              <ProposalModal trigger={<Button variant="default" className="bg-blue-600 text-white hover:bg-blue-700">Esita ettepanek</Button>} />
             </div>
+
+            <ProjectFilters
+              categories={categories}
+              locations={locations}
+              sortOptions={sortOptions}
+              selectedFilters={selectedFilters}
+              onFilterChange={handleFilterChange}
+            />
+
+            <Tabs defaultValue="grid" className="w-full">
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-gray-600">
+                  Kuvatakse {projects.length} projekti
+                </div>
+                <TabsList className="grid w-[200px] grid-cols-2 bg-gray-100">
+                  <TabsTrigger value="grid" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-gray-700">Kaardid</TabsTrigger>
+                  <TabsTrigger value="list" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-gray-700">Nimekiri</TabsTrigger>
+                </TabsList>
+              </div>
+
+              <TabsContent value="grid" className="mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {projects.map((project) => (
+                    <ProjectCard
+                      key={project.id}
+                      project={project}
+                      isVoted={votedProjects.includes(project.id)}
+                      onVote={() => handleVote(project.id)}
+                    />
+                  ))}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="list" className="mt-6">
+                <Card>
+                  <CardContent className="p-0">
+                    <div className="divide-y">
+                      {projects.map((project) => (
+                        <ProjectCard
+                          key={project.id}
+                          project={project}
+                          variant="compact"
+                          isVoted={votedProjects.includes(project.id)}
+                          onVote={() => handleVote(project.id)}
+                        />
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </div>
