@@ -7,16 +7,16 @@
     --font-sans: var(--font-roboto);
     --font-condensed: var(--font-roboto-condensed);
 
-    --background: 240 240 242;
-    --foreground: 19 19 23;
+    --background: 240, 240, 242;
+    --foreground: 19, 19, 23;
 
-    --primary: 0 90 163;
-    --primary-foreground: 255 255 255;
+    --primary: 0, 90, 163;
+    --primary-foreground: 255, 255, 255;
 
-    --muted: 216 217 223;
-    --muted-foreground: 104 107 120;
+    --muted: 216, 217, 223;
+    --muted-foreground: 104, 107, 120;
 
-    --border: 216 217 223;
+    --border: 216, 217, 223;
   }
 
   /* Disable tap highlight color on mobile */
@@ -58,38 +58,38 @@
 
 @layer base {
     .dark {
-        --background: 240 10% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 240 10% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 240 10% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 240 5.9% 10%;
-        --secondary: 240 3.7% 15.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 240 3.7% 15.9%;
-        --muted-foreground: 240 5% 64.9%;
-        --accent: 240 3.7% 15.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 240 3.7% 15.9%;
-        --input: 240 3.7% 15.9%;
-        --ring: 240 4.9% 83.9%;
-        --chart-1: 220 70% 50%;
-        --chart-2: 160 60% 45%;
-        --chart-3: 30 80% 55%;
-        --chart-4: 280 65% 60%;
-        --chart-5: 340 75% 55%;
-        --sidebar-background: 240 5.9% 10%;
-        --sidebar-foreground: 240 4.8% 95.9%;
-        --sidebar-primary: 224.3 76.3% 48%;
-        --sidebar-primary-foreground: 0 0% 100%;
-        --sidebar-accent: 240 3.7% 15.9%;
-        --sidebar-accent-foreground: 240 4.8% 95.9%;
-        --sidebar-border: 240 3.7% 15.9%;
-        --sidebar-ring: 217.2 91.2% 59.8%;
+        --background: 10, 10, 10;
+        --foreground: 250, 250, 250;
+        --card: 10, 10, 10;
+        --card-foreground: 250, 250, 250;
+        --popover: 10, 10, 10;
+        --popover-foreground: 250, 250, 250;
+        --primary: 250, 250, 250;
+        --primary-foreground: 26, 26, 26;
+        --secondary: 41, 41, 41;
+        --secondary-foreground: 250, 250, 250;
+        --muted: 41, 41, 41;
+        --muted-foreground: 166, 166, 166;
+        --accent: 41, 41, 41;
+        --accent-foreground: 250, 250, 250;
+        --destructive: 78, 29, 29;
+        --destructive-foreground: 250, 250, 250;
+        --border: 41, 41, 41;
+        --input: 41, 41, 41;
+        --ring: 214, 214, 214;
+        --chart-1: 51, 119, 255;
+        --chart-2: 46, 184, 138;
+        --chart-3: 255, 153, 51;
+        --chart-4: 179, 77, 255;
+        --chart-5: 255, 77, 106;
+        --sidebar-background: 26, 26, 26;
+        --sidebar-foreground: 245, 245, 245;
+        --sidebar-primary: 51, 119, 255;
+        --sidebar-primary-foreground: 255, 255, 255;
+        --sidebar-accent: 41, 41, 41;
+        --sidebar-accent-foreground: 245, 245, 245;
+        --sidebar-border: 41, 41, 41;
+        --sidebar-ring: 51, 119, 255;
     }
 }
 
@@ -134,7 +134,7 @@
 
 .cm-editor,
 .cm-gutters {
-    @apply  dark:bg-zinc-800 outline-none selection:bg-zinc-900 !important;
+    @apply dark:bg-zinc-800 outline-none selection:bg-zinc-900 !important;
 }
 
 .ͼo.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground,

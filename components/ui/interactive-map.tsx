@@ -95,7 +95,7 @@ export function InteractiveMap() {
                     <MapPin className="w-3 h-3 text-white" />
                   </div>
                   <div className={`
-                    absolute -bottom-1 left-1/2 transform -translate-x-1/2
+                    absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2
                     w-8 h-8 rounded-full bg-blue-500/20
                     animate-ping
                   `} />
