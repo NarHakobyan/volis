@@ -109,7 +109,7 @@ export function ProjectCard({
 
             {showVoteButton && (
               <Button
-                className="w-full gap-2 mt-2"
+                className="w-full gap-2 mt-2 bg-blue-600 text-white hover:bg-blue-700"
                 onClick={onVote}
                 disabled={isVoted}
               >

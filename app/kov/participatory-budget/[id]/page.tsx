@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight, Share2, Map, MessageSquare, Euro, Users, Calendar, ThumbsUp, Info } from "lucide-react";
+import { ChevronRight, Share2, Map, MessageSquare, Euro, Users, Calendar, ThumbsUp, Info, FileText, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +14,7 @@ import { CommentForm } from "./comment-form";
 import { ImageCarousel } from "./image-carousel";
 import { ShareButtons } from "./share-buttons";
 import { cn } from "@/lib/utils";
+import { MapView } from "./map-view";
 
 export default function ProposalDetailPage() {
   return (
@@ -62,21 +63,27 @@ export default function ProposalDetailPage() {
                 <TabsList className="w-full justify-start border-b rounded-none h-auto p-0">
                   <TabsTrigger
                     value="description"
-                    className="data-[state=active]:border-b-2 data-[state=active]:border-blue-600 rounded-none px-6 py-3"
+                    className="data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-700 rounded-none px-6 py-3 text-gray-700 hover:text-blue-600"
                   >
                     Kirjeldus
                   </TabsTrigger>
                   <TabsTrigger
                     value="comments"
-                    className="data-[state=active]:border-b-2 data-[state=active]:border-blue-600 rounded-none px-6 py-3"
+                    className="data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-700 rounded-none px-6 py-3 text-gray-700 hover:text-blue-600"
                   >
                     Kommentaarid
                   </TabsTrigger>
                   <TabsTrigger
                     value="updates"
-                    className="data-[state=active]:border-b-2 data-[state=active]:border-blue-600 rounded-none px-6 py-3"
+                    className="data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-700 rounded-none px-6 py-3 text-gray-700 hover:text-blue-600"
                   >
                     Uuendused
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="files"
+                    className="data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-700 rounded-none px-6 py-3 text-gray-700 hover:text-blue-600"
+                  >
+                    Failid
                   </TabsTrigger>
                 </TabsList>
 
@@ -199,6 +206,53 @@ export default function ProposalDetailPage() {
                     </div>
                   </div>
                 </TabsContent>
+
+                <TabsContent value="files" className="p-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-blue-600">
+                      <FileText className="h-5 w-5" />
+                      <span className="font-medium">Projekti failid</span>
+                    </div>
+                    <div className="space-y-3">
+                      {[
+                        {
+                          name: "Projekti ülevaade.pdf",
+                          size: "2.4 MB",
+                          type: "PDF",
+                          date: "15.01.2024"
+                        },
+                        {
+                          name: "Eelarve kalkulatsioon.xlsx",
+                          size: "1.1 MB",
+                          type: "Excel",
+                          date: "16.01.2024"
+                        },
+                        {
+                          name: "Visualisatsioonid.zip",
+                          size: "15.6 MB",
+                          type: "ZIP",
+                          date: "17.01.2024"
+                        }
+                      ].map((file) => (
+                        <div key={file.name} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                          <div className="flex items-center gap-3">
+                            <div className="p-2 bg-blue-100 rounded-lg">
+                              <FileText className="h-5 w-5 text-blue-600" />
+                            </div>
+                            <div>
+                              <p className="font-medium text-gray-900">{file.name}</p>
+                              <p className="text-sm text-gray-500">{file.size} • {file.type} • {file.date}</p>
+                            </div>
+                          </div>
+                          <Button variant="ghost" size="sm" className="gap-2">
+                            <Download className="h-4 w-4" />
+                            Laadi alla
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </TabsContent>
               </Tabs>
             </Card>
           </div>
@@ -244,7 +298,7 @@ export default function ProposalDetailPage() {
                   </div>
                 </div>
 
-                <Button className="w-full gap-2" size="lg">
+                <Button className="w-full gap-2 bg-blue-600 text-white hover:bg-blue-700" size="lg">
                   <ThumbsUp className="h-5 w-5" />
                   Hääleta projekti poolt
                 </Button>
@@ -263,6 +317,15 @@ export default function ProposalDetailPage() {
                   <p className="text-sm text-gray-500">Projekti autor</p>
                 </div>
               </div>
+            </Card>
+
+            {/* Location Map */}
+            <Card className="p-6">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">Asukoht</h3>
+              <MapView
+                location={{ lat: 58.372540, lng: 26.736830 }} // Anne kanali coordinates
+                title="Anne kanali ja Emajõe vaheline ala"
+              />
             </Card>
           </div>
         </div>

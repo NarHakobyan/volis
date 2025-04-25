@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Vote, Users2, ListChecks } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { InteractiveMap } from "@/components/ui/interactive-map";
 
 export default function HomePage() {
   return (
@@ -13,17 +14,7 @@ export default function HomePage() {
             <h1 className="mb-[32px] text-center text-[28px] font-normal leading-[32px] text-[#131317] font-condensed">
               Käimasolevad küsitlused ja hääletused
             </h1>
-            {/* Use PNG if Figma uses an image, otherwise keep MapCircuit component */}
-            <div className="w-full flex justify-center">
-              <Image
-                src="/images/map-circuit.png"
-                alt="Eesti kaart küsitlustega"
-                width={820}
-                height={400}
-                className="object-contain max-w-full h-auto"
-                priority
-              />
-            </div>
+            <InteractiveMap />
           </section>
 
           {/* Võimalused block */}
