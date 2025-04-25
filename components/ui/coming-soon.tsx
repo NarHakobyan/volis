@@ -60,7 +60,7 @@ export function ComingSoon() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Card className="w-full max-w-lg backdrop-blur-sm bg-background/95 border-primary/20 shadow-lg">
+          <Card className="w-full max-w-lg backdrop-blur-sm border-primary/20 shadow-lg">
             <CardHeader className="text-center space-y-4">
               <motion.div
                 initial={{ scale: 0.9 }}
@@ -126,7 +126,7 @@ export function ComingSoon() {
                 <Button
                   variant="outline"
                   onClick={() => router.back()}
-                  className="bg-background hover:bg-muted/50 border-primary/20 text-foreground"
+                  className="hover:bg-muted/50 border-primary/20 text-foreground"
                 >
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Return to Previous Page

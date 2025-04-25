@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
 import { Vote, Users2, ListChecks } from "lucide-react";

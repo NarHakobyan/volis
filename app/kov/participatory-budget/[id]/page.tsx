@@ -63,25 +63,25 @@ export default function ProposalDetailPage() {
                 <TabsList className="w-full justify-start border-b rounded-none h-auto p-0">
                   <TabsTrigger
                     value="description"
-                    className="data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-700 rounded-none px-6 py-3 text-gray-700 hover:text-blue-600"
+                    className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary rounded-none px-6 py-3 text-muted-foreground hover:text-primary transition-colors"
                   >
                     Kirjeldus
                   </TabsTrigger>
                   <TabsTrigger
                     value="comments"
-                    className="data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-700 rounded-none px-6 py-3 text-gray-700 hover:text-blue-600"
+                    className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary rounded-none px-6 py-3 text-muted-foreground hover:text-primary transition-colors"
                   >
                     Kommentaarid
                   </TabsTrigger>
                   <TabsTrigger
                     value="updates"
-                    className="data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-700 rounded-none px-6 py-3 text-gray-700 hover:text-blue-600"
+                    className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary rounded-none px-6 py-3 text-muted-foreground hover:text-primary transition-colors"
                   >
                     Uuendused
                   </TabsTrigger>
                   <TabsTrigger
                     value="files"
-                    className="data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-700 rounded-none px-6 py-3 text-gray-700 hover:text-blue-600"
+                    className="data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary rounded-none px-6 py-3 text-muted-foreground hover:text-primary transition-colors"
                   >
                     Failid
                   </TabsTrigger>

@@ -19,6 +19,12 @@
     --border: 216 217 223;
   }
 
+  /* Disable tap highlight color on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
   body {
     @apply bg-white text-[#131317] antialiased;
   }
@@ -156,12 +162,4 @@
 
 .cm-lineNumbers .cm-activeLineGutter {
     @apply rounded-l-sm !important;
-}
-
-.suggestion-highlight {
-    @apply bg-blue-200 hover:bg-blue-300 dark:hover:bg-blue-400/50 dark:text-blue-50 dark:bg-blue-500/40;
-}
-
-.important-highlight {
-    @apply bg-yellow-200 hover:bg-yellow-300 dark:hover:bg-yellow-400/50 dark:text-yellow-50 dark:bg-yellow-500/30;
 }

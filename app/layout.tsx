@@ -25,7 +25,7 @@ const robotoCondensed = Roboto_Condensed({
 export const metadata: Metadata = {
   title: 'VOLIS - Local Government Public Opinion Poll Environment',
   description: 'VOLIS enables municipalities to conduct secure population surveys and inclusive budget processes, connected to the population register and secured by ID solutions.',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://volis.ee'),
 };
 
 export const viewport = {
